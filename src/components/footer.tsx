@@ -1,7 +1,13 @@
+import Link from "next/link";
+import { Twitter } from "./twitter";
+import { Facebook } from "./facebook";
+import { Instagram } from "./instagram";
+import { Github } from "./github";
+
 export function Footer() {
   return (
     <footer>
-      <div className="container mx-auto">
+      <div className="container mx-auto mb-[-90px] relative z-[1]">
         <div className="bg-black rounded-[20px] py-9 px-16 grid grid-cols-12 items-center">
           <div className="col-start-1 col-end-7">
             <h2 className="text-[40px] leading-[45px] text-white uppercase">
@@ -34,11 +40,45 @@ export function Footer() {
         <div className="container mx-auto">
           <div className="flex justify-between mb-12">
             <div className="max-w-64">
-              <h1 className="text-3xl font-bold mb-6">NextShop</h1>
-              <p className="text-sm text-black/60 leading-[22px] mb-8">
+              <h1 className="text-3xl font-bold mb-6 leading-[1]">NextShop</h1>
+              <p className="text-sm text-black/60 leading-[22px] mb-6">
                 We have cloths that suits your style and which you're proud to
                 wear. From men to women;
               </p>
+              <ul className="flex items-center gap-x-3">
+                <li>
+                  <Link
+                    href="!#"
+                    className="w-7 h-7 rounded-full border border-black/20 bg-white inline-flex items-center justify-center hover:bg-black hover:border-black hover:text-white transition-colors duration-300 ease-in-out"
+                  >
+                    <Twitter />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="!#"
+                    className="w-7 h-7 rounded-full border border-black/20 bg-white inline-flex items-center justify-center hover:bg-black hover:border-black hover:text-white  transition-colors duration-300 ease-in-out"
+                  >
+                    <Facebook />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="!#"
+                    className="w-7 h-7 rounded-full border border-black/20 bg-white inline-flex items-center justify-center hover:bg-black hover:border-black hover:text-white  transition-colors duration-300 ease-in-out"
+                  >
+                    <Instagram />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="!#"
+                    className="w-7 h-7 rounded-full border border-black/20 bg-white inline-flex items-center justify-center hover:bg-black hover:border-black hover:text-white transition-colors duration-300 ease-in-out"
+                  >
+                    <Github />
+                  </Link>
+                </li>
+              </ul>
             </div>
             <div>
               <h3 className="font-satoshi-medium tracking-[3px] text-base leading-[18px] text-black mb-6 uppercase">
