@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Twitter } from "./twitter";
-import { Facebook } from "./facebook";
-import { Instagram } from "./instagram";
-import { Github } from "./github";
+import { Twitter } from "./icons/twitter";
+import { Facebook } from "./icons/facebook";
+import { Instagram } from "./icons/instagram";
+import { Github } from "./icons/github";
+import { Envelop } from "./icons/envelop";
 
 export function Footer() {
   return (
@@ -18,11 +19,7 @@ export function Footer() {
           <div className="col-start-9 col-end-13">
             <form>
               <div className="relative">
-                <Image
-                  src="/envelop.svg"
-                  className="absolute top-1/2 left-4 -translate-y-1/2"
-                  alt="envelop"
-                />
+                <Envelop className="absolute top-1/2 left-4 -translate-y-1/2 fill-black/40" />
                 <input
                   type="email"
                   className="bg-white w-full rounded-full text-base placeholder:text-black/40 pl-[52px] py-3 pr-4 text-black outline-none"
@@ -166,11 +163,11 @@ export function Footer() {
               </p>
             </div>
             <div className="flex justify-end items-center">
-              <Image src="/visa.svg" alt="visa" />
-              <Image src="/mastercard.svg" alt="visa" />
-              <Image src="/paypal.svg" alt="visa" />
-              <Image src="/applepay.svg" alt="visa" />
-              <Image src="/googlepay.svg" alt="visa" />
+              <Image width={50} height={40} src="/visa.svg" alt="visa" />
+              <Image width={50} height={40} src="/mastercard.svg" alt="visa" />
+              <Image width={50} height={40} src="/paypal.svg" alt="visa" />
+              <Image width={50} height={40} src="/applepay.svg" alt="visa" />
+              <Image width={50} height={40} src="/googlepay.svg" alt="visa" />
             </div>
           </div>
         </div>
