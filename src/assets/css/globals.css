@@ -1,0 +1,23 @@
+@import "./fonts.css";
+
+@import "tailwindcss";
+
+@theme {
+  --font-satoshi-light: "Satoshi-Light", sans-serif;
+  --font-satoshi: "Satoshi", sans-serif;
+  --font-satoshi-medium: "Satoshi-Medium", sans-serif;
+  --font-integral-bold: "Integral-Bold", sans-serif;
+
+  --breakpoint-xl: 77.5rem;
+}
+
+@layer base {
+  h1,
+  h2 {
+    font-family: var(--font-integral-bold);
+  }
+}
+
+body {
+  font-family: var(--font-satoshi);
+}
