@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Twitter } from "./twitter";
 import { Facebook } from "./facebook";
 import { Instagram } from "./instagram";
@@ -17,9 +18,10 @@ export function Footer() {
           <div className="col-start-9 col-end-13">
             <form>
               <div className="relative">
-                <img
+                <Image
                   src="/envelop.svg"
                   className="absolute top-1/2 left-4 -translate-y-1/2"
+                  alt="envelop"
                 />
                 <input
                   type="email"
@@ -42,8 +44,8 @@ export function Footer() {
             <div className="max-w-64">
               <h1 className="text-3xl font-bold mb-6 leading-[1]">NextShop</h1>
               <p className="text-sm text-black/60 leading-[22px] mb-6">
-                We have cloths that suits your style and which you're proud to
-                wear. From men to women;
+                We have cloths that suits your style and which you&apos;re proud
+                to wear. From men to women;
               </p>
               <ul className="flex items-center gap-x-3">
                 <li>
@@ -164,11 +166,11 @@ export function Footer() {
               </p>
             </div>
             <div className="flex justify-end items-center">
-              <img src="/visa.svg" alt="visa" />
-              <img src="/mastercard.svg" alt="visa" />
-              <img src="/paypal.svg" alt="visa" />
-              <img src="/applepay.svg" alt="visa" />
-              <img src="/googlepay.svg" alt="visa" />
+              <Image src="/visa.svg" alt="visa" />
+              <Image src="/mastercard.svg" alt="visa" />
+              <Image src="/paypal.svg" alt="visa" />
+              <Image src="/applepay.svg" alt="visa" />
+              <Image src="/googlepay.svg" alt="visa" />
             </div>
           </div>
         </div>
