@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useState } from "react";
-import { Cross } from "../icons/cross";
+import Link from 'next/link';
+import { useState } from 'react';
+import { Cross } from '../icons/cross';
 
 export const HeaderTop = () => {
   const [show, setShow] = useState(true);
@@ -10,14 +10,14 @@ export const HeaderTop = () => {
     <div className="bg-black py-2">
       <div className="container">
         <div className="relative">
-          <p className="text-center text-white text-sm">
-            Sign up and get 20% off to your first order.{" "}
+          <p className="text-center text-sm text-white">
+            Sign up and get 20% off to your first order.{' '}
             <Link href="!#" className="font-bold underline">
               Sign Up Now
             </Link>
           </p>
           <button
-            className="absolute top-1/2 -translate-y-1/2 right-0 hidden md:block cursor-pointer"
+            className="absolute top-1/2 right-0 hidden -translate-y-1/2 cursor-pointer md:block"
             onClick={() => {
               setShow(false);
             }}

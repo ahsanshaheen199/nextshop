@@ -1,5 +1,5 @@
-import { HeaderMain } from "./header-main";
-import { HeaderTop } from "./header-top";
+import { HeaderMain } from './header-main';
+import { HeaderTop } from './header-top';
 
 export const Header = () => {
   return (
