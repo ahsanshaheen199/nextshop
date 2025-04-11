@@ -9,6 +9,17 @@
   --font-integral-bold: "Integral-Bold", sans-serif;
 
   --breakpoint-xl: 77.5rem;
+
+  --animate-overlayShow: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  @keyframes overlayShow {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
 
 @utility container {
