@@ -1,0 +1,39 @@
+.main-menu li.has-child {
+    @apply flex items-center gap-x-1 cursor-pointer relative;
+}
+
+.main-menu > li {
+    @apply px-3 py-9;
+}
+
+.main-menu li a  {
+    @apply text-black transition-colors;
+}
+
+.main-menu li:hover > a {
+    @apply text-black/70;
+}
+
+.main-menu li.has-child ul {
+    @apply opacity-0 invisible z-50 absolute w-[260px] rounded bg-white top-full left-0 py-2.5 shadow-[0_2px_13px_rgba(0,0,0,.1)] translate-y-2.5 transition duration-300;
+}
+
+.main-menu li.has-child:hover > ul {
+    @apply visible opacity-100 translate-y-0;
+}
+
+.main-menu ul li {
+    @apply px-4 py-3;
+}
+
+.main-menu ul li.has-child {
+    @apply justify-between;
+}
+
+.main-menu ul ul {
+    @apply !top-0 !left-full;
+}
+
+.main-menu ul li.has-child .submenu-icon {
+    @apply !rotate-270;
+}
