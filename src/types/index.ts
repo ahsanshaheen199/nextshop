@@ -1,4 +1,4 @@
-type Menu = {
+export type Menu = {
   id: number;
   slug: string;
   status: 'publish' | 'draft';

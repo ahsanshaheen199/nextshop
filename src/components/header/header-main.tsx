@@ -7,7 +7,7 @@ import { SearchIcon } from '../icons/search';
 import { AlignIcon } from '../icons/align';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Cross } from '../icons/cross';
-import { MainMenu } from '@/components/main-menu';
+import { MainMenu } from '@/components/header/main-menu';
 import { Suspense } from 'react';
 
 export const HeaderMain = () => {

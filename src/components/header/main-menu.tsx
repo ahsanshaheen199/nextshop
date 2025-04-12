@@ -2,6 +2,7 @@ import { apiFetch } from '@/lib/app-fetch';
 import parse, { HTMLReactParserOptions, domToReact, DOMNode } from 'html-react-parser';
 import Link from 'next/link';
 import { ChevronDown } from '@/components/icons/chevron-down';
+import { Menu } from '@/types';
 
 export async function MainMenu() {
   const response = await apiFetch('/wp/v2/navigation', { next: { revalidate: 60 * 5 } });
