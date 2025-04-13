@@ -9,3 +9,7 @@ export type Menu = {
     rendered: string;
   };
 };
+
+export type SiteSettings = {
+  title: string;
+};
