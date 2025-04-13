@@ -8,3 +8,13 @@ export function apiFetch(url: string, config: RequestInit = {}) {
     },
   });
 }
+
+export function apiFetchWithoutAuth(url: string, config: RequestInit = {}) {
+  return fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json${url}`, {
+    ...config,
+    headers: {
+      Accept: 'application/json',
+      ...config.headers,
+    },
+  });
+}

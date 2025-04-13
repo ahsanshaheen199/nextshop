@@ -13,3 +13,7 @@ export type Menu = {
 export type SiteSettings = {
   title: string;
 };
+
+export type Params<T> = Promise<T>;
+
+export type SearchParams = { [key: string]: string | string[] | undefined };

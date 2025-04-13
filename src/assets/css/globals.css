@@ -6,6 +6,7 @@
   --font-satoshi-light: "Satoshi-Light", sans-serif;
   --font-satoshi: "Satoshi", sans-serif;
   --font-satoshi-medium: "Satoshi-Medium", sans-serif;
+  --font-satoshi-bold: "Satoshi-Bold", sans-serif;
   --font-integral-bold: "Integral-Bold", sans-serif;
 
   --animate-overlayShow: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);

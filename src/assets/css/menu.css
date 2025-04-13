@@ -59,7 +59,7 @@
 }
 
 .mobile-menu li.has-child .submenu-icon {
-    @apply absolute top-2.5 right-0;
+    @apply absolute top-0 right-0 p-2;
 }
 
 .mobile-menu li.has-child ul {

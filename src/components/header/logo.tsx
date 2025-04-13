@@ -27,7 +27,7 @@ export async function Logo() {
           <li className={className}>
             {domToReact(children as DOMNode[], options)}
             {className.includes('has-child') && (
-              <span className="submenu-icon p-2">
+              <span className="submenu-icon">
                 <ChevronDown />
               </span>
             )}
