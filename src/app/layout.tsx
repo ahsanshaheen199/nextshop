@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
-import "../assets/css/globals.css";
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header/header";
+import type { Metadata } from 'next';
+import '../assets/css/globals.css';
+import { Footer } from '@/components/footer';
+import { Header } from '@/components/header/header';
 
 export const metadata: Metadata = {
   title: {
-    default: "NextShop",
-    template: "%s | NextShop",
+    default: 'NextShop',
+    template: '%s | NextShop',
   },
-  description:
-    "eCommerce store built with Next.js, Vercel, WordPress, WooCommerce, and Tailwind CSS.",
+  description: 'eCommerce store built with Next.js, Vercel, WordPress, WooCommerce, and Tailwind CSS.',
 };
 
 export default function RootLayout({

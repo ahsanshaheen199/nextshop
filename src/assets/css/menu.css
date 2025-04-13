@@ -6,11 +6,12 @@
     @apply px-3 py-9;
 }
 
-.main-menu li a  {
+.main-menu li a,
+.mobile-menu li a  {
     @apply text-black transition-colors;
 }
 
-.main-menu li:hover > a {
+.main-menu li:hover > a, .mobile-menu li:hover > a {
     @apply text-black/70;
 }
 
@@ -36,4 +37,31 @@
 
 .main-menu ul li.has-child .submenu-icon {
     @apply !rotate-270;
+}
+
+
+/* Mobile Menu */
+
+.mobile-menu li {
+    @apply block;
+}
+
+.mobile-menu li ul {
+    @apply ms-1.5;
+}
+
+.mobile-menu li a {
+    @apply p-2 block;
+}
+
+.mobile-menu li.has-child {
+    @apply relative;
+}
+
+.mobile-menu li.has-child .submenu-icon {
+    @apply absolute top-2.5 right-0;
+}
+
+.mobile-menu li.has-child ul {
+    @apply hidden h-0 transition-[height] duration-300;
 }

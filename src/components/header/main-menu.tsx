@@ -8,7 +8,7 @@ export async function MainMenu() {
   const response = await apiFetch('/wp/v2/navigation', { next: { revalidate: 60 * 5 } });
   const menus = (await response.json()) as Menu[];
   const publishedMenus = menus.filter((menu) => menu.status === 'publish');
-  const headerMenu = publishedMenus.find((menu) => menu.slug === 'header-navigation');
+  const headerMenu = publishedMenus.find((menu) => menu.slug === 'main-menu');
 
   const options: HTMLReactParserOptions = {
     replace: (domNode) => {
@@ -44,7 +44,7 @@ export async function MainMenu() {
   };
 
   if (!headerMenu) {
-    return <span className="text-base text-black">No menu found</span>;
+    return <p className="ms-10 py-9 text-base text-black">No menu found</p>;
   }
 
   return (
