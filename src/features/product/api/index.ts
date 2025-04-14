@@ -11,6 +11,7 @@ export async function getProductsWithPagination({
 }) {
   const searchParams = new URLSearchParams();
   searchParams.set('page', page.toString());
+  searchParams.set('per_page', '9');
 
   if (orderBy === 'default') {
     searchParams.delete('orderby', orderBy);

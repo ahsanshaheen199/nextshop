@@ -25,9 +25,8 @@ export function ProductSorting({ sortBy = 'default' }: { sortBy: string }) {
         disabled={isPending}
         onValueChange={(value) => {
           setTransition(() => {
-            let url = `/shop`;
+            const url = `/shop`;
             const urlSearchParams = new URLSearchParams();
-            urlSearchParams.delete('orderby');
             urlSearchParams.set('orderby', value);
             urlSearchParams.set('page', '1');
 

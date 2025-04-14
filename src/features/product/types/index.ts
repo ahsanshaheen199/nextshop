@@ -23,4 +23,16 @@ export type Product = {
     currency_prefix: string;
     currency_suffix: string;
   };
+  price_html: string;
+  images: Image[];
+};
+
+export type Image = {
+  id: number;
+  src: string;
+  thumbnail: string;
+  srcset: string;
+  sizes: string;
+  name: string;
+  alt: string;
 };

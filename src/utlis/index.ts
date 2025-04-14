@@ -22,3 +22,12 @@ export function formatPrice(amount: string, currencySettings: Product['prices'])
 
   return `${currency_prefix}${formatted}${currency_suffix}`;
 }
+
+export function calculateDiscountPercentage(currencySettings: Product['prices']) {
+  const { regular_price, sale_price, currency_minor_unit } = currencySettings;
+  const regularPrice = Number(regular_price) / Math.pow(10, currency_minor_unit);
+  const salePrice = Number(sale_price) / Math.pow(10, currency_minor_unit);
+  if (regularPrice <= 0 || salePrice <= 0) return 0; // Avoid division by zero
+  const discount = ((regularPrice - salePrice) / regularPrice) * 100;
+  return Math.round(discount); // Round to nearest whole number
+}
