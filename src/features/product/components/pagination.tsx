@@ -4,6 +4,7 @@ import { useOptimistic, useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { SearchParams } from '@/types';
 import { ArrowRight } from '@/components/icons/arrow-right';
+import { twMerge } from 'tailwind-merge';
 
 type Props = {
   totalPages: number;
@@ -83,7 +84,7 @@ export function Pagination({ totalPages, searchParamsValue }: Props) {
   return (
     <div className="flex justify-between">
       <button
-        className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-3.5 py-2 font-satoshi-medium text-sm text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed"
+        className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1 || isPending}
       >
@@ -94,7 +95,10 @@ export function Pagination({ totalPages, searchParamsValue }: Props) {
           <button
             key={index}
             onClick={() => (typeof page === 'number' ? handlePageChange(page) : null)}
-            className={`h-10 w-10 cursor-pointer rounded-lg font-satoshi-medium text-sm text-black/50 disabled:cursor-not-allowed ${currentPage === page ? 'bg-[rgba(0,0,0,0.06)] text-black' : ''}`}
+            className={twMerge(
+              `h-9 w-9 cursor-pointer rounded-lg font-satoshi-medium text-xs text-black/50 disabled:cursor-not-allowed md:h-10 md:w-10 md:text-sm`,
+              currentPage === page && 'bg-[rgba(0,0,0,0.06)] text-black'
+            )}
             disabled={page === '...' || isPending}
           >
             {page}
@@ -102,7 +106,7 @@ export function Pagination({ totalPages, searchParamsValue }: Props) {
         ))}
       </div>
       <button
-        className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-3.5 py-2 font-satoshi-medium text-sm text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed"
+        className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages || isPending}
       >
