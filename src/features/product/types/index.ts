@@ -25,6 +25,12 @@ export type Product = {
   };
   price_html: string;
   images: Image[];
+  categories: Category[];
+  short_description: string;
+  description: string;
+  add_to_cart: {
+    text: string;
+  };
 };
 
 export type Image = {
@@ -35,4 +41,11 @@ export type Image = {
   sizes: string;
   name: string;
   alt: string;
+};
+
+export type Category = {
+  id: number;
+  name: string;
+  slug: string;
+  link: string;
 };

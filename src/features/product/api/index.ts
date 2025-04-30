@@ -33,8 +33,6 @@ export async function getProductsWithPagination({
 
   const response = await apiFetchWithoutAuth(`/wc/store/v1/products?${searchParams.toString()}`);
 
-  console.log(`/wc/store/v1/products?${searchParams.toString()}`);
-
   if (!response.ok) {
     return {
       products: [],
