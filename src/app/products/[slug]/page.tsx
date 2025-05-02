@@ -5,6 +5,7 @@ import { Breadcrumb } from '@/components/breadcrumb';
 import { Product } from '@/features/product/types';
 import { calculateDiscountPercentage } from '@/utlis';
 import { Rating } from '@/features/product/components/rating';
+import { SingleProductTabs } from '@/features/single-product/components/single-product-tabs';
 
 export default async function ProductName({ params }: { params: Params<{ slug: string }> }) {
   const { slug } = await params;
@@ -30,7 +31,7 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
             ]}
           />
         </div>
-        <div className="mb-20 grid grid-cols-12">
+        <div className="mb-[50px] grid grid-cols-12 lg:mb-20">
           <div className="col-span-6"></div>
           <div className="col-span-6">
             <h2 className="mb-3 font-integral-bold text-2xl leading-[1.17] lg:mb-3.5 lg:text-[2.5rem]">
@@ -71,6 +72,10 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
               </button>
             </div>
           </div>
+        </div>
+
+        <div className="mb-[50px] lg:mb-20">
+          <SingleProductTabs product={product} />
         </div>
       </div>
     </main>
