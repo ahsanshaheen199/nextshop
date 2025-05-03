@@ -5,6 +5,8 @@ import { Suspense } from 'react';
 import { ProductListWithPagination } from '@/features/product/components/product-list-with-pagination';
 import { ProductLayoutContextProvider } from '@/features/product/components/product-layout-context';
 import { FilterSidebar } from '@/features/product/components/filter-sidebar';
+import { ProductSkeleton } from '@/components/skeleton/product-skeleton';
+import { ProductCountWithOrderingSkeleton } from '@/components/skeleton/product-count-with-ordering-skeleton';
 
 export default async function ShopPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const searchParamsValue = await searchParams;
@@ -29,8 +31,10 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
 
           <div className="col-span-3">
             <ProductLayoutContextProvider>
-              <ProductCountWithOrdering searchParamsValue={searchParamsValue} />
-              <Suspense fallback={'loading....'}>
+              <Suspense fallback={<ProductCountWithOrderingSkeleton />}>
+                <ProductCountWithOrdering searchParamsValue={searchParamsValue} />
+              </Suspense>
+              <Suspense fallback={<ProductSkeleton count={9} />}>
                 <ProductListWithPagination searchParamsValue={searchParamsValue} />
               </Suspense>
             </ProductLayoutContextProvider>

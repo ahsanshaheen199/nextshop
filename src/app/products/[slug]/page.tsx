@@ -6,17 +6,22 @@ import { Product } from '@/features/product/types';
 import { calculateDiscountPercentage } from '@/utlis';
 import { Rating } from '@/features/product/components/rating';
 import { SingleProductTabs } from '@/features/single-product/components/single-product-tabs';
+import { RelatedProducts } from '@/features/single-product/components/related-products';
+import { Suspense } from 'react';
+import { ProductSkeleton } from '@/components/skeleton/product-skeleton';
 
 export default async function ProductName({ params }: { params: Params<{ slug: string }> }) {
   const { slug } = await params;
 
   const response = await apiFetchWithoutAuth(`/wc/store/v1/products/${slug}`);
+  // const settingsResponse = await apiFetch(`/wc/v3/settings/products`);
 
   if (!response.ok) {
     notFound();
   }
 
   const product = (await response.json()) as Product;
+  // const settingsResult = (await settingsResponse.json()) as { woocommerce_enable_reviews: { value: 'yes' | 'no' } };
 
   return (
     <main>
@@ -75,8 +80,21 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
         </div>
 
         <div className="mb-[50px] lg:mb-20">
-          <SingleProductTabs product={product} />
+          <SingleProductTabs isReviewEnabled={true} product={product} />
         </div>
+
+        <Suspense
+          fallback={
+            <div className="mb-[14px] lg:mb-11">
+              <div className="mb-10 lg:mb-12">
+                <div className="mx-auto h-12 w-1/2 animate-pulse rounded bg-gray-200"></div>
+              </div>
+              <ProductSkeleton />
+            </div>
+          }
+        >
+          <RelatedProducts ids={product.extensions['next-woo-helper-custom-product-data'].related_ids} />
+        </Suspense>
       </div>
     </main>
   );

@@ -31,6 +31,21 @@ export type Product = {
   add_to_cart: {
     text: string;
   };
+  extensions: {
+    'next-woo-helper-custom-product-data': {
+      related_ids: number[];
+      dimensions: { length: string; width: string; height: string };
+      dimensions_unit: string;
+      weight_unit: string;
+      weight: string;
+    };
+  };
+  attributes: {
+    id: number;
+    name: string;
+    terms: { id: number; name: string; slug: string }[];
+  }[];
+  review_count: number;
 };
 
 export type Image = {
@@ -47,5 +62,4 @@ export type Category = {
   id: number;
   name: string;
   slug: string;
-  link: string;
 };
