@@ -2,14 +2,20 @@
 
 import * as Tabs from '@radix-ui/react-tabs';
 import { Product } from '@/features/product/types';
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
+import { ProductReviews } from '@/features/single-product/components/product-reviews';
 
 type Props = {
   product: Product;
-  isReviewEnabled: boolean;
+  settingsResult:
+    | {
+        id: string;
+        value: string;
+      }[]
+    | undefined;
 };
 
-export function SingleProductTabs({ product, isReviewEnabled }: Props) {
+export function SingleProductTabs({ product, settingsResult }: Props) {
   const showAdditionalTab = useMemo(() => {
     return !(
       product.extensions['next-woo-helper-custom-product-data'].dimensions.length === '' &&
@@ -18,6 +24,16 @@ export function SingleProductTabs({ product, isReviewEnabled }: Props) {
       product.attributes.length === 0
     );
   }, [product]);
+
+  const settings = useMemo(() => {
+    if (!settingsResult) {
+      return;
+    }
+
+    return {
+      isReviewEnabled: settingsResult.find((setting) => setting.id === 'woocommerce_enable_reviews'),
+    };
+  }, [settingsResult]);
 
   return (
     <Tabs.Root defaultValue="description">
@@ -36,10 +52,10 @@ export function SingleProductTabs({ product, isReviewEnabled }: Props) {
             Additional Information
           </Tabs.Trigger>
         )}
-        {isReviewEnabled && (
+        {!!(settings?.isReviewEnabled && settings.isReviewEnabled.value === 'yes') && (
           <Tabs.Trigger
             className="w-1/3 cursor-pointer pb-5 text-center font-satoshi text-base text-black/60 hover:text-black data-[state=active]:border-b-[2] data-[state=active]:border-black data-[state=active]:font-satoshi-medium data-[state=active]:text-black lg:pb-6 lg:text-xl"
-            value="tab3"
+            value="review"
           >
             Reviews ({product.review_count})
           </Tabs.Trigger>
@@ -96,7 +112,13 @@ export function SingleProductTabs({ product, isReviewEnabled }: Props) {
         </Tabs.Content>
       )}
 
-      {isReviewEnabled && <Tabs.Content value="tab3">Tab three content</Tabs.Content>}
+      {!!(settings?.isReviewEnabled && settings.isReviewEnabled.value === 'yes') && (
+        <Tabs.Content value="review">
+          <Suspense fallback={'loading....'}>
+            <ProductReviews product={product} />
+          </Suspense>
+        </Tabs.Content>
+      )}
     </Tabs.Root>
   );
 }

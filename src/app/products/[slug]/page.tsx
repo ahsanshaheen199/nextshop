@@ -1,5 +1,5 @@
 import { Params } from '@/types';
-import { apiFetchWithoutAuth } from '@/lib/app-fetch';
+import { apiFetch, apiFetchWithoutAuth } from '@/lib/app-fetch';
 import { notFound } from 'next/navigation';
 import { Breadcrumb } from '@/components/breadcrumb';
 import { Product } from '@/features/product/types';
@@ -14,14 +14,13 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
   const { slug } = await params;
 
   const response = await apiFetchWithoutAuth(`/wc/store/v1/products/${slug}`);
-  // const settingsResponse = await apiFetch(`/wc/v3/settings/products`);
-
   if (!response.ok) {
     notFound();
   }
 
   const product = (await response.json()) as Product;
-  // const settingsResult = (await settingsResponse.json()) as { woocommerce_enable_reviews: { value: 'yes' | 'no' } };
+
+  const settingsResponse = await apiFetch(`/wc/v3/settings/products`);
 
   return (
     <main>
@@ -80,7 +79,12 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
         </div>
 
         <div className="mb-[50px] lg:mb-20">
-          <SingleProductTabs isReviewEnabled={true} product={product} />
+          <SingleProductTabs
+            settingsResult={
+              settingsResponse.ok ? ((await settingsResponse.json()) as { id: string; value: string }[]) : undefined
+            }
+            product={product}
+          />
         </div>
 
         <Suspense

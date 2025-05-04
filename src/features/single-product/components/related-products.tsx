@@ -21,7 +21,9 @@ export async function RelatedProducts({ ids }: Props) {
 
   return (
     <div className="mb-[30px]">
-      <h2 className="mb-10 text-center font-integral-bold text-5xl text-black lg:mb-14">Related Products</h2>
+      <h2 className="mb-10 text-center font-integral-bold text-[32px] leading-[36px] text-black lg:mb-14 lg:text-5xl">
+        Related Products
+      </h2>
       <div className="md:grid md:grid-cols-2 md:gap-x-5 lg:grid-cols-4">
         {relatedProducts.map((product, index) => {
           if (index === 4) {
