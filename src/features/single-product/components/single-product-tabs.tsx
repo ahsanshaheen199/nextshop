@@ -102,7 +102,7 @@ export function SingleProductTabs({ product, settingsResult }: Props) {
                   </div>
                   <div className="flex-1">
                     <span className="font-satoshi text-xl leading-[22px] text-black/60">
-                      {attribute.terms.map((term) => term.name).join(',')}
+                      {attribute.terms.map((term) => term.name).join(', ')}
                     </span>
                   </div>
                 </div>

@@ -9,6 +9,7 @@ import { SingleProductTabs } from '@/features/single-product/components/single-p
 import { RelatedProducts } from '@/features/single-product/components/related-products';
 import { Suspense } from 'react';
 import { ProductSkeleton } from '@/components/skeleton/product-skeleton';
+import { ProductGallery } from '@/features/single-product/components/product-gallery';
 
 export default async function ProductName({ params }: { params: Params<{ slug: string }> }) {
   const { slug } = await params;
@@ -29,15 +30,16 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
           <Breadcrumb
             links={[
               { title: 'Home', href: '/' },
-              { title: 'Categories', href: '/categories' },
               ...product.categories.map((category) => ({ title: category.name, href: `/categories/${category.slug}` })),
               { title: product.name, href: '#' },
             ]}
           />
         </div>
-        <div className="mb-[50px] grid grid-cols-12 lg:mb-20">
-          <div className="col-span-6"></div>
-          <div className="col-span-6">
+        <div className="mb-[50px] grid lg:mb-20 lg:grid-cols-2 lg:gap-x-10">
+          <div className="col-span-1">
+            <ProductGallery product={product} />
+          </div>
+          <div className="col-span-1 mt-5 lg:mt-0">
             <h2 className="mb-3 font-integral-bold text-2xl leading-[1.17] lg:mb-3.5 lg:text-[2.5rem]">
               {product.name}
             </h2>
