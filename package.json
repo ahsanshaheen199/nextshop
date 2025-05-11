@@ -6,7 +6,8 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "fmt": "prettier --write ./src/**/*.{ts,tsx} --config ./.prettierrc"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.7",
@@ -14,6 +15,9 @@
     "@radix-ui/react-tabs": "^1.1.9",
     "@tanstack/react-query": "^5.75.1",
     "axios": "^1.9.0",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "html-react-parser": "^5.2.3",
     "next": "15.2.5",
     "react": "^19.0.0",

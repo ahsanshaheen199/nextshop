@@ -10,6 +10,7 @@ import { RelatedProducts } from '@/features/single-product/components/related-pr
 import { Suspense } from 'react';
 import { ProductSkeleton } from '@/components/skeleton/product-skeleton';
 import { ProductGallery } from '@/features/single-product/components/product-gallery';
+import Image from 'next/image';
 
 export default async function ProductName({ params }: { params: Params<{ slug: string }> }) {
   const { slug } = await params;
@@ -37,7 +38,11 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
         </div>
         <div className="mb-[50px] grid lg:mb-20 lg:grid-cols-2 lg:gap-x-10">
           <div className="col-span-1">
-            <ProductGallery product={product} />
+            {
+              product.images.length > 1 ? <ProductGallery product={product} /> : <div className="lg:h-[500px] h-[300px] w-full">
+                <Image width={500} height={500} className="h-full w-full object-cover rounded-[20px]" src={product.images[0]?.src} alt={product.images[0]?.alt} />
+              </div>
+            }
           </div>
           <div className="col-span-1 mt-5 lg:mt-0">
             <h2 className="mb-3 font-integral-bold text-2xl leading-[1.17] lg:mb-3.5 lg:text-[2.5rem]">
