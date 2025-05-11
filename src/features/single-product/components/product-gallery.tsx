@@ -2,11 +2,9 @@
 
 import { Product } from '@/features/product/types';
 import Image from 'next/image';
-// import { SingleSlider } from './single-slider';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-// import Autoplay from 'embla-carousel-autoplay';
 
 type Props = {
   product: Product;
@@ -77,7 +75,7 @@ export function ProductGallery({ product }: Props) {
               {
                 product.images.map((image, index) => (
                   <div key={index} className="relative grow-0 shrink-0 basis-full h-full">
-                    <Image width={500} height={500} src={image.src} alt={image?.alt ?? product.name} sizes={image.sizes} className="rounded-[20px] h-full w-full object-cover" />
+                    <Image loading="eager" width={500} height={500} src={image.src} alt={image?.alt ?? product.name} sizes={image.sizes} className="rounded-[20px] h-full w-full object-cover" />
                   </div>
                 ))
               }
