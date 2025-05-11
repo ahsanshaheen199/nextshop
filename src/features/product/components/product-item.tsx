@@ -13,7 +13,7 @@ export function ProductItem({ product }: Props) {
     <div className="group/product-item relative mb-5 overflow-hidden">
       {product.images.length > 0 ? (
         <div className="rounded-[20px]">
-          <Link href={`/products/${product.slug}`} className="group/product-item-link relative block overflow-hidden">
+          <Link prefetch={true} href={`/products/${product.slug}`} className="group/product-item-link relative block overflow-hidden">
             <Image
               width={400}
               height={400}
@@ -24,6 +24,7 @@ export function ProductItem({ product }: Props) {
             />
             {product.images.length > 1 ? (
               <Image
+                loading={'eager'}
                 width={400}
                 height={400}
                 alt={product.name}
@@ -38,7 +39,7 @@ export function ProductItem({ product }: Props) {
 
       <div className="flex flex-col items-center bg-white p-4 transition-transform group-hover/product-item:-translate-y-[2.2rem]">
         <h2 className="mb-2 font-satoshi-bold text-base leading-none text-ellipsis text-black hover:text-black/60 lg:text-xl lg:text-clip">
-          <Link href={`/products/${product.slug}`}>{product.name}</Link>
+          <Link prefetch={true} href={`/products/${product.slug}`}>{product.name}</Link>
         </h2>
         {!isNaN(Number(product.average_rating)) && Number(product.average_rating) > 0 ? (
           <div className="mb-2 flex items-center gap-x-3.5">
