@@ -11,6 +11,7 @@ import { Suspense } from 'react';
 import { ProductSkeleton } from '@/components/skeleton/product-skeleton';
 import { ProductGallery } from '@/features/single-product/components/product-gallery';
 import Image from 'next/image';
+import { AddToCart } from '@/features/single-product/components/add-to-cart';
 
 export default async function ProductName({ params }: { params: Params<{ slug: string }> }) {
   const { slug } = await params;
@@ -38,11 +39,19 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
         </div>
         <div className="mb-[50px] grid lg:mb-20 lg:grid-cols-2 lg:gap-x-10">
           <div className="col-span-1">
-            {
-              product.images.length > 1 ? <ProductGallery product={product} /> : <div className="lg:h-[500px] h-[300px] w-full">
-                <Image width={500} height={500} className="h-full w-full object-cover rounded-[20px]" src={product.images[0]?.src} alt={product.images[0]?.alt} />
+            {product.images.length > 1 ? (
+              <ProductGallery product={product} />
+            ) : (
+              <div className="h-[300px] w-full lg:h-[500px]">
+                <Image
+                  width={500}
+                  height={500}
+                  className="h-full w-full rounded-[20px] object-cover"
+                  src={product.images[0]?.src}
+                  alt={product.images[0]?.alt}
+                />
               </div>
-            }
+            )}
           </div>
           <div className="col-span-1 mt-5 lg:mt-0">
             <h2 className="mb-3 font-integral-bold text-2xl leading-[1.17] lg:mb-3.5 lg:text-[2.5rem]">
@@ -78,9 +87,7 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
               className="mb-6 [&_p]:font-satoshi [&_p]:text-sm [&_p]:leading-[1.43] [&_p]:text-black/60 [&_p]:lg:text-base [&_p]:lg:leading-[1.38]"
             />
             <div className="flex gap-x-3 border-t border-black/10 pt-6 lg:gap-x-5">
-              <button className="w-full cursor-pointer rounded-[62px] bg-black py-3 text-white lg:py-4">
-                Add to cart
-              </button>
+              <AddToCart product={product} />
             </div>
           </div>
         </div>

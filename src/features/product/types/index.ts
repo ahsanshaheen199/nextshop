@@ -30,6 +30,9 @@ export type Product = {
   description: string;
   add_to_cart: {
     text: string;
+    minimum: number;
+    maximum: number;
+    multiple_of: number;
   };
   extensions: {
     'next-woo-helper-custom-product-data': {
@@ -46,6 +49,9 @@ export type Product = {
     terms: { id: number; name: string; slug: string }[];
   }[];
   review_count: number;
+  low_stock_remaining: number | null;
+  sold_individually: boolean;
+  is_on_backorder: boolean;
 };
 
 export type Image = {
