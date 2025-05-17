@@ -13,6 +13,7 @@ export async function ProductCountWithOrdering({ searchParamsValue }: Props) {
   const { meta } = await getProductsWithPagination({
     page: searchParamsValue?.page ? Number(searchParamsValue['page']) : 1,
     orderBy: searchParamsValue?.orderby ? (searchParamsValue['orderby'] as string) : 'default',
+    perPage: searchParamsValue?.perPage ? Number(searchParamsValue['perPage']) : 9,
   });
 
   return (

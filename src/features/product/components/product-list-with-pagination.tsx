@@ -12,6 +12,7 @@ export async function ProductListWithPagination({ searchParamsValue }: Props) {
   const { products, meta } = await getProductsWithPagination({
     page: searchParamsValue?.page ? Number(searchParamsValue['page']) : 1,
     orderBy: searchParamsValue?.orderby ? (searchParamsValue['orderby'] as string) : 'default',
+    perPage: searchParamsValue?.perPage ? Number(searchParamsValue['perPage']) : 9,
   });
 
   return (
@@ -19,7 +20,7 @@ export async function ProductListWithPagination({ searchParamsValue }: Props) {
       <ProductList products={products} />
 
       <div className="border-t border-black/10 pt-6">
-        <Pagination totalPages={meta.totalPages} searchParamsValue={searchParamsValue} />
+        <Pagination totalPages={meta.totalPages} />
       </div>
     </Fragment>
   );

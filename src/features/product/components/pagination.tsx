@@ -1,45 +1,30 @@
 'use client';
 
-import { useOptimistic, useTransition } from 'react';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { SearchParams } from '@/types';
+import { useCallback } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ArrowRight } from '@/components/icons/arrow-right';
 import { twMerge } from 'tailwind-merge';
+import Link from 'next/link';
 
 type Props = {
   totalPages: number;
-  searchParamsValue: SearchParams;
 };
 
-export function Pagination({ totalPages, searchParamsValue }: Props) {
+export function Pagination({ totalPages }: Props) {
   const searchParams = useSearchParams();
 
-  const [currentPage, setCurrentPage] = useOptimistic<number, number>(
-    searchParamsValue?.page ? Number(searchParamsValue['page']) : 1,
-    (_, page) => {
-      return page;
-    }
-  );
-  const [isPending, startTransition] = useTransition();
-  const router = useRouter();
+  const currentPage = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
+
   const pathname = usePathname();
 
-  const onPageChange = (page: number) => {
+  const getPageLink = (page: number) => {
     const urlSearchParams = new URLSearchParams(searchParams.toString());
     urlSearchParams.delete('page');
     urlSearchParams.set('page', page.toString());
-    startTransition(() => {
-      setCurrentPage(page);
-      router.push(`${pathname}?${urlSearchParams.toString()}`, { scroll: false });
-    });
+    return `${pathname}?${urlSearchParams.toString()}`;
   };
 
-  const handlePageChange = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-    onPageChange(page);
-  };
-
-  const getPageNumbers = () => {
+  const getPageNumbers = useCallback(() => {
     const pages = [];
 
     // Always show first page
@@ -79,39 +64,74 @@ export function Pagination({ totalPages, searchParamsValue }: Props) {
     }
 
     return pages;
-  };
+  }, [currentPage, totalPages]);
 
   return (
     <div className="flex justify-between">
-      <button
-        className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1 || isPending}
-      >
-        <ArrowRight className="rotate-180 fill-black group-hover:fill-black" /> Prev
-      </button>
+      {currentPage === 1 ? (
+        <button
+          className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
+          disabled={true}
+        >
+          <ArrowRight className="rotate-180 fill-black group-hover:fill-black" /> Prev
+        </button>
+      ) : (
+        <Link
+          prefetch={true}
+          className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
+          href={getPageLink(currentPage - 1)}
+        >
+          <ArrowRight className="rotate-180 fill-black group-hover:fill-black" /> Prev
+        </Link>
+      )}
+
       <div>
-        {getPageNumbers().map((page, index) => (
-          <button
-            key={index}
-            onClick={() => (typeof page === 'number' ? handlePageChange(page) : null)}
-            className={twMerge(
-              `h-9 w-9 cursor-pointer rounded-lg font-satoshi-medium text-xs text-black/50 disabled:cursor-not-allowed md:h-10 md:w-10 md:text-sm`,
-              currentPage === page && 'bg-[rgba(0,0,0,0.06)] text-black'
-            )}
-            disabled={page === '...' || isPending}
-          >
-            {page}
-          </button>
-        ))}
+        {getPageNumbers().map((page, index) => {
+          if (page !== '...') {
+            return (
+              <Link
+                prefetch={true}
+                href={getPageLink(Number(page))}
+                key={index}
+                onClick={() => (typeof page === 'number' ? getPageLink(page) : null)}
+                className={twMerge(
+                  `inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg font-satoshi-medium text-xs text-black/50 disabled:cursor-not-allowed md:h-10 md:w-10 md:text-sm`,
+                  currentPage === page && 'bg-[rgba(0,0,0,0.06)] text-black'
+                )}
+              >
+                {page}
+              </Link>
+            );
+          } else {
+            return (
+              <span
+                key={index}
+                className={twMerge(
+                  `inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg font-satoshi-medium text-xs text-black/50 disabled:cursor-not-allowed md:h-10 md:w-10 md:text-sm`
+                )}
+              >
+                {page}
+              </span>
+            );
+          }
+        })}
       </div>
-      <button
-        className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages || isPending}
-      >
-        Next <ArrowRight className="fill-black group-hover:fill-black" />
-      </button>
+      {currentPage === totalPages ? (
+        <button
+          className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
+          disabled={true}
+        >
+          Next <ArrowRight className="fill-black group-hover:fill-black" />
+        </button>
+      ) : (
+        <Link
+          prefetch={true}
+          className="group inline-flex cursor-pointer items-center gap-x-2 rounded-lg border border-black/10 px-2.5 py-2 font-satoshi-medium text-xs text-black transition-colors hover:bg-black hover:text-white disabled:cursor-not-allowed md:px-3.5 md:text-sm"
+          href={getPageLink(currentPage + 1)}
+        >
+          Next <ArrowRight className="fill-black group-hover:fill-black" />
+        </Link>
+      )}
     </div>
   );
 }
