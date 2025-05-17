@@ -7,6 +7,7 @@ import { MainMenu } from '@/components/header/main-menu';
 import { Suspense } from 'react';
 import { Logo } from '@/components/header/logo';
 import { MiniCartBtn } from '@/components/header/mini-cart-btn';
+import { ProductSearch } from './product-search';
 
 export const HeaderMain = () => {
   return (
@@ -34,16 +35,7 @@ export const HeaderMain = () => {
 
           {/* Product Search */}
           <div className="ms-10 hidden flex-1 bg-amber-50 lg:block">
-            <form>
-              <div className="relative">
-                <SearchIcon className="absolute top-1/2 left-4 -translate-y-1/2 fill-black/40" />
-                <input
-                  className="w-full rounded-full bg-[#F0F0F0] py-3 pr-4 pl-12 text-sm text-black outline-none placeholder:text-black/40 lg:pl-[52px] lg:text-base"
-                  type="search"
-                  placeholder="Search your products..."
-                />
-              </div>
-            </form>
+            <ProductSearch />
           </div>
 
           {/* User & Cart Icon */}
@@ -56,18 +48,14 @@ export const HeaderMain = () => {
               </Dialog.Trigger>
               <Dialog.Portal>
                 <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-overlayShow" />
-                <Dialog.Content className="fixed top-0 left-0 z-50 w-full bg-white px-4 pt-12 pb-10 data-[state=open]:animate-overlayShow">
-                  <Dialog.Title></Dialog.Title>
-                  <form className="">
-                    <div className="relative">
-                      <SearchIcon className="absolute top-1/2 left-4 -translate-y-1/2 fill-black/40" />
-                      <input
-                        className="w-full rounded-full bg-[#F0F0F0] py-3 pr-4 pl-12 text-sm text-black outline-none placeholder:text-black/40 lg:pl-[52px] lg:text-base"
-                        type="search"
-                        placeholder="Search your products..."
-                      />
+                <Dialog.Content className="fixed top-0 left-0 z-50 size-full w-full bg-white pt-12 data-[state=open]:animate-overlayShow">
+                  <div className="size-full">
+                    <div className="mx-auto w-[80%]">
+                      <Dialog.Title></Dialog.Title>
+                      <ProductSearch />
                     </div>
-                  </form>
+                  </div>
+
                   <Dialog.Close asChild>
                     <button className="absolute top-4 right-4 text-black">
                       <Cross />
