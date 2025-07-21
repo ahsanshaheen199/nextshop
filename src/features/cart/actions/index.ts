@@ -4,7 +4,7 @@ import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
 export async function createCartAndSetCookie() {
-  let cart = await createCart();
+  const cart = await createCart();
   if (cart) {
     (await cookies()).set('cartToken', cart);
   }
@@ -50,8 +50,6 @@ export async function addToCart(prevState: unknown, payload: { productId: string
 
     return { success: 'Item added to cart' };
   }
-
-  console.log(await res.json());
 
   return { error: 'Failed to add item to cart' };
 }

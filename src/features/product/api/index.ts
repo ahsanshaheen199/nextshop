@@ -4,14 +4,16 @@ import { Product } from '@/features/product/types';
 export async function getProductsWithPagination({
   page = 1,
   orderBy,
+  perPage,
 }: {
   page: number;
   orderBy: string;
   order?: 'desc' | 'asc';
+  perPage: number;
 }) {
   const searchParams = new URLSearchParams();
   searchParams.set('page', page.toString());
-  searchParams.set('per_page', '9');
+  searchParams.set('per_page', perPage.toString());
 
   if (orderBy === 'default') {
     searchParams.delete('orderby', orderBy);

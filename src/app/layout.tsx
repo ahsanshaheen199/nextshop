@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import '../assets/css/globals.css';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header/header';
-import { QueryProvider } from '@/components/QueryProvier';
 import { CartProvider } from '@/providers/cart-provider';
 import { getCart } from '@/features/cart/queries';
+import { QueryProvider } from '@/providers/query-provider';
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +20,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cart = await getCart();
-  console.log(cart);
 
   return (
     <html lang="en">

@@ -19,6 +19,7 @@ export function Breadcrumb({ links }: Props) {
         ) : (
           <li key={index} className="inline-flex items-center gap-x-1">
             <Link
+              prefetch={true}
               className={twMerge('text-base text-black/60', index === links.length - 1 && 'text-black')}
               href={link.href}
             >

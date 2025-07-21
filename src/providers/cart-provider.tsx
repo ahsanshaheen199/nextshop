@@ -1,7 +1,7 @@
 'use client';
 
 import { CartResponse } from '@/types/cart-response';
-import { Cart, CartItem } from '@/types/cart';
+import { CartItem } from '@/types/cart';
 import { ProductResponseItem } from '@/types/product-response';
 import { createContext, useContext, useOptimistic } from 'react';
 
