@@ -7,10 +7,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'ahsanhabib.xyz',
       },
-      // {
-      //   protocol: 'http',
-      //   hostname: 'localhost',
-      // },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
     ],
   },
 };

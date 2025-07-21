@@ -1,6 +1,7 @@
 @import "./fonts.css";
 @import "tailwindcss";
 @import "./menu.css";
+@plugin 'tailwindcss-animate';
 
 @theme {
   --font-satoshi-light: "Satoshi-Light", sans-serif;

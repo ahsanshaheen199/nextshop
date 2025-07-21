@@ -1,14 +1,24 @@
+'use client';
+
 import { Product } from '@/features/product/types';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Rating } from '@/features/product/components/rating';
 import { calculateDiscountPercentage } from '@/utlis';
+import { useCart } from '@/providers/cart-provider';
+import { addToCart } from '@/features/cart/actions';
+import { ProductResponseItem } from '@/types/product-response';
+import { useActionState } from 'react';
 
 type Props = {
   product: Product;
 };
 
 export function ProductItem({ product }: Props) {
+  const [state, formAction, isPending] = useActionState(addToCart, null);
+  const addItemAction = formAction.bind(null, { productId: product.id.toString(), quantity: 1 });
+  const { addCartItem } = useCart();
+
   return (
     <div className="group/product-item relative mb-5 overflow-hidden">
       {product.images.length > 0 ? (
@@ -67,9 +77,20 @@ export function ProductItem({ product }: Props) {
             ) : null)}
         </div>
         <div className="flex w-full justify-center bg-white transition-opacity group-hover/product-item:opacity-100 lg:absolute lg:bottom-[-2.2rem] lg:opacity-0">
-          <button className="w-auto cursor-pointer rounded-full border border-black bg-black px-7 py-3 font-satoshi-medium text-base text-white">
-            Add to Cart
-          </button>
+          <form
+            action={async () => {
+              addCartItem(product as unknown as ProductResponseItem, 1);
+              await addItemAction();
+            }}
+          >
+            <button
+              type="submit"
+              disabled={isPending}
+              className="w-auto cursor-pointer rounded-full border border-black bg-black px-7 py-3 font-satoshi-medium text-base text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Add to Cart
+            </button>
+          </form>
         </div>
       </div>
     </div>

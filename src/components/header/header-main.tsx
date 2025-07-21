@@ -7,6 +7,7 @@ import { Cross } from '../icons/cross';
 import { MainMenu } from '@/components/header/main-menu';
 import { Suspense } from 'react';
 import { Logo } from '@/components/header/logo';
+import { MiniCartBtn } from './mini-cart-btn';
 
 export const HeaderMain = () => {
   return (
@@ -77,12 +78,7 @@ export const HeaderMain = () => {
               </Dialog.Portal>
             </Dialog.Root>
 
-            <button className="relative">
-              <CartIcon />
-              <span className="absolute -top-2.5 -right-2.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-black text-sm text-white">
-                0
-              </span>
-            </button>
+            <MiniCartBtn />
             <Link className="text-black" href="/my-account">
               <UserIcon />
             </Link>
