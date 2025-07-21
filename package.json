@@ -10,7 +10,7 @@
     "fmt": "prettier --write ./src/**/*.{ts,tsx} --config ./.prettierrc"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.7",
+    "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-scroll-area": "^1.2.8",
     "@radix-ui/react-select": "^2.1.7",
     "@radix-ui/react-tabs": "^1.1.9",
