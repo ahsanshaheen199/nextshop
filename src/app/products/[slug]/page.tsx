@@ -111,7 +111,7 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
             </div>
           }
         >
-          <RelatedProducts ids={product.extensions['next-woo-helper-custom-product-data'].related_ids} />
+          <RelatedProducts ids={product.extensions['headless-helper-custom-product-data'].related_ids} />
         </Suspense>
       </div>
     </main>

@@ -35,12 +35,13 @@ export type Product = {
     multiple_of: number;
   };
   extensions: {
-    'next-woo-helper-custom-product-data': {
+    'headless-helper-custom-product-data': {
       related_ids: number[];
       dimensions: { length: string; width: string; height: string };
       dimensions_unit: string;
       weight_unit: string;
       weight: string;
+      reviews_allowed: boolean;
     };
   };
   attributes: {

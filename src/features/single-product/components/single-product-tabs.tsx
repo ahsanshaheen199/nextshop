@@ -18,9 +18,9 @@ type Props = {
 export function SingleProductTabs({ product, settingsResult }: Props) {
   const showAdditionalTab = useMemo(() => {
     return !(
-      product.extensions['next-woo-helper-custom-product-data'].dimensions.length === '' &&
-      product.extensions['next-woo-helper-custom-product-data'].dimensions.height === '' &&
-      product.extensions['next-woo-helper-custom-product-data'].dimensions.width === '' &&
+      product.extensions['headless-helper-custom-product-data'].dimensions.length === '' &&
+      product.extensions['headless-helper-custom-product-data'].dimensions.height === '' &&
+      product.extensions['headless-helper-custom-product-data'].dimensions.width === '' &&
       product.attributes.length === 0
     );
   }, [product]);
@@ -35,15 +35,34 @@ export function SingleProductTabs({ product, settingsResult }: Props) {
     };
   }, [settingsResult]);
 
+  const getDefaultTab = useMemo(() => {
+    if (product.description !== '') {
+      return 'description';
+    } else if (showAdditionalTab) {
+      return 'additional';
+    } else if (
+      settings?.isReviewEnabled &&
+      settings.isReviewEnabled.value === 'yes' &&
+      product.extensions['headless-helper-custom-product-data'].reviews_allowed
+    ) {
+      return 'review';
+    }
+
+    return 'description';
+  }, [product]);
+
   return (
-    <Tabs.Root defaultValue="description">
+    <Tabs.Root defaultValue={getDefaultTab}>
       <Tabs.List className="mb-6 flex justify-center border-b border-black/10" aria-label="single products tabs">
-        <Tabs.Trigger
-          className="w-1/3 cursor-pointer pb-5 text-center font-satoshi text-base text-black/60 hover:text-black data-[state=active]:border-b-[2] data-[state=active]:border-black data-[state=active]:font-satoshi-medium data-[state=active]:text-black lg:pb-6 lg:text-xl"
-          value="description"
-        >
-          Description
-        </Tabs.Trigger>
+        {product.description !== '' && (
+          <Tabs.Trigger
+            className="w-1/3 cursor-pointer pb-5 text-center font-satoshi text-base text-black/60 hover:text-black data-[state=active]:border-b-[2] data-[state=active]:border-black data-[state=active]:font-satoshi-medium data-[state=active]:text-black lg:pb-6 lg:text-xl"
+            value="description"
+          >
+            Description
+          </Tabs.Trigger>
+        )}
+
         {showAdditionalTab && (
           <Tabs.Trigger
             className="w-1/3 cursor-pointer pb-5 text-center font-satoshi text-base text-black/60 hover:text-black data-[state=active]:border-b-[2] data-[state=active]:border-black data-[state=active]:font-satoshi-medium data-[state=active]:text-black lg:pb-6 lg:text-xl"
@@ -52,7 +71,11 @@ export function SingleProductTabs({ product, settingsResult }: Props) {
             Additional Information
           </Tabs.Trigger>
         )}
-        {!!(settings?.isReviewEnabled && settings.isReviewEnabled.value === 'yes') && (
+        {!!(
+          settings?.isReviewEnabled &&
+          settings.isReviewEnabled.value === 'yes' &&
+          product.extensions['headless-helper-custom-product-data'].reviews_allowed
+        ) && (
           <Tabs.Trigger
             className="w-1/3 cursor-pointer pb-5 text-center font-satoshi text-base text-black/60 hover:text-black data-[state=active]:border-b-[2] data-[state=active]:border-black data-[state=active]:font-satoshi-medium data-[state=active]:text-black lg:pb-6 lg:text-xl"
             value="review"
@@ -76,8 +99,14 @@ export function SingleProductTabs({ product, settingsResult }: Props) {
               </div>
               <div className="flex-1">
                 <span className="font-satoshi text-xl leading-[22px] text-black/60">
-                  {product.extensions['next-woo-helper-custom-product-data'].weight}{' '}
-                  {product.extensions['next-woo-helper-custom-product-data'].weight_unit}
+                  {product.extensions['headless-helper-custom-product-data'].weight !== '' ? (
+                    <>
+                      {product.extensions['headless-helper-custom-product-data'].weight}{' '}
+                      {product.extensions['headless-helper-custom-product-data'].weight_unit}
+                    </>
+                  ) : (
+                    'N/A'
+                  )}
                 </span>
               </div>
             </div>
@@ -87,10 +116,18 @@ export function SingleProductTabs({ product, settingsResult }: Props) {
               </div>
               <div className="flex-1">
                 <span className="font-satoshi text-xl leading-[22px] text-black/60">
-                  {product.extensions['next-woo-helper-custom-product-data'].dimensions.length} {'x'}{' '}
-                  {product.extensions['next-woo-helper-custom-product-data'].dimensions.width} {'x'}{' '}
-                  {product.extensions['next-woo-helper-custom-product-data'].dimensions.height}{' '}
-                  {product.extensions['next-woo-helper-custom-product-data'].dimensions_unit}
+                  {product.extensions['headless-helper-custom-product-data'].dimensions.length !== '' &&
+                  product.extensions['headless-helper-custom-product-data'].dimensions.width !== '' &&
+                  product.extensions['headless-helper-custom-product-data'].dimensions.height !== '' ? (
+                    <>
+                      {product.extensions['headless-helper-custom-product-data'].dimensions.length} {'x'}{' '}
+                      {product.extensions['headless-helper-custom-product-data'].dimensions.width} {'x'}{' '}
+                      {product.extensions['headless-helper-custom-product-data'].dimensions.height}{' '}
+                      {product.extensions['headless-helper-custom-product-data'].dimensions_unit}
+                    </>
+                  ) : (
+                    'N/A'
+                  )}
                 </span>
               </div>
             </div>

@@ -97,4 +97,14 @@ export interface ProductResponseItem {
   };
   slug: string;
   grouped_products: Array<number>;
+  extensions: {
+    'headless-helper-custom-product-data': {
+      related_ids: number[];
+      dimensions: { length: string; width: string; height: string };
+      dimensions_unit: string;
+      weight_unit: string;
+      weight: string;
+      reviews_allowed: boolean;
+    };
+  };
 }
