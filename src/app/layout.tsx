@@ -5,6 +5,7 @@ import { Header } from '@/components/header/header';
 import { CartProvider } from '@/providers/cart-provider';
 import { getCart } from '@/features/cart/queries';
 import { QueryProvider } from '@/providers/query-provider';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +30,7 @@ export default async function RootLayout({
             <Header />
             {children}
             <Footer />
+            <Toaster position="top-center" offset={100} />
           </CartProvider>
         </QueryProvider>
       </body>
