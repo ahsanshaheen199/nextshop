@@ -41,3 +41,10 @@ export async function login(prevState: unknown, formData: FormData) {
     password,
   };
 }
+
+export async function logout() {
+  (await cookies()).delete('session');
+  return {
+    success: true,
+  };
+}
