@@ -1,11 +1,11 @@
 'use client';
 
-import { Product } from '@/features/product/types';
 import { useProductLayoutContext } from '@/features/product/components/product-layout-context';
 import { ProductItem } from '@/features/product/components/product-item';
+import { ProductResponseItem } from '@/types/product-response';
 
 type ProductList = {
-  products: Product[];
+  products: ProductResponseItem[];
 };
 
 export function ProductList({ products }: ProductList) {

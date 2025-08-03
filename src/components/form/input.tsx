@@ -1,8 +1,8 @@
 import { twMerge } from 'tailwind-merge';
 
-interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type FormInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   isError?: boolean;
-}
+};
 
 export function FormInput({ type, isError = false, className, ...rest }: FormInputProps) {
   return (

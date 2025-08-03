@@ -1,6 +1,6 @@
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
-import { Product } from '@/features/product/types';
 import { ProductItem } from '@/features/product/components/product-item';
+import { ProductResponseItem } from '@/types/product-response';
 
 type Props = {
   ids: number[];
@@ -17,7 +17,7 @@ export async function RelatedProducts({ ids }: Props) {
     return;
   }
 
-  const relatedProducts = (await response.json()) as Product[];
+  const relatedProducts = (await response.json()) as ProductResponseItem[];
 
   return (
     <div className="mb-[30px]">

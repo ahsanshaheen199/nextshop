@@ -53,3 +53,30 @@ export async function addToCart(prevState: unknown, payload: { productId: string
 
   return { error: 'Failed to add item to cart' };
 }
+
+export async function updateCart(prevState: unknown, payload: { key: string; quantity: number }) {
+  const cartToken = (await cookies()).get('cartToken')?.value;
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart/update-item`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'CART-TOKEN': cartToken || '',
+    },
+    body: JSON.stringify({
+      key: payload.key,
+      quantity: payload.quantity,
+    }),
+  });
+
+  if (res.ok) {
+    revalidateTag('getCart');
+
+    (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+
+    return { success: 'Item updated in cart' };
+  }
+
+  return { error: 'Failed to update item in cart' };
+}

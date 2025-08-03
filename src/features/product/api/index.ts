@@ -1,5 +1,5 @@
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
-import { Product } from '@/features/product/types';
+import { ProductResponseItem } from '@/types/product-response';
 
 export async function getProductsWithPagination({
   page = 1,
@@ -44,7 +44,7 @@ export async function getProductsWithPagination({
       },
     };
   }
-  const result = (await response.json()) as Product[];
+  const result = (await response.json()) as ProductResponseItem[];
 
   return {
     products: result,

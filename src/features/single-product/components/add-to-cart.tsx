@@ -5,7 +5,6 @@ import { useActionState, useState } from 'react';
 import { Product } from '@/features/product/types';
 import { useCart } from '@/providers/cart-provider';
 import { addToCart } from '@/features/cart/actions';
-import { ProductResponseItem } from '@/types/product-response';
 
 type Props = {
   product: Product;
@@ -43,7 +42,7 @@ export function AddToCart({ product }: Props) {
         <form
           className="flex-1"
           action={() => {
-            addCartItem(product as unknown as ProductResponseItem, quantity);
+            addCartItem(product.id.toString(), quantity);
             addItemAction();
           }}
         >

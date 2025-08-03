@@ -8,26 +8,28 @@ import { createContext, useContext, useOptimistic } from 'react';
 type CartContextType = {
   cart: CartResponse | undefined;
   addCartItem: (
-    product: ProductResponseItem,
+    productId: string,
     quantity: number,
-    variation?: { attribute: string; value: string }[]
+    variation?: { attribute: string; value: string }[],
+    product?: ProductResponseItem
   ) => void;
-  updateCartItem: (
-    product: ProductResponseItem,
-    quantity: number,
-    variation?: { attribute: string; value: string }[]
-  ) => void;
+  updateCartItem: (productId: string, quantity: number, variation?: { attribute: string; value: string }[]) => void;
   removeCartItem: (productId: string, variation?: { attribute: string; value: string }[]) => void;
 };
 
 type CartAction =
   | {
       type: 'UPDATE_ITEM';
-      payload: { product: ProductResponseItem; quantity: number; variation?: { attribute: string; value: string }[] };
+      payload: { productId: string; quantity: number; variation?: { attribute: string; value: string }[] };
     }
   | {
       type: 'ADD_ITEM';
-      payload: { product: ProductResponseItem; quantity: number; variation?: { attribute: string; value: string }[] };
+      payload: {
+        productId: string;
+        quantity: number;
+        variation?: { attribute: string; value: string }[];
+        product?: ProductResponseItem;
+      };
     }
   | {
       type: 'REMOVE_ITEM';
@@ -128,10 +130,10 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
 
   switch (action.type) {
     case 'ADD_ITEM': {
-      const { product, quantity, variation } = action.payload;
+      const { productId, quantity, variation, product } = action.payload;
 
       // Check if item already exists in cart
-      const existingItemIndex = findCartItemIndex(currentCart.items, product.id, variation);
+      const existingItemIndex = findCartItemIndex(currentCart.items, parseInt(productId, 10), variation);
 
       let updatedItems: CartItem[];
 
@@ -140,7 +142,7 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
         updatedItems = currentCart.items.map((item, index) => {
           if (index === existingItemIndex) {
             const newQuantity = item.quantity + quantity;
-            const unitPrice = parseFloat(product.prices.sale_price || product.prices.price || '0');
+            const unitPrice = parseFloat(item.prices.sale_price || item.prices.price || '0');
             const lineTotal = unitPrice * newQuantity;
 
             return {
@@ -153,9 +155,9 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
               },
               prices: {
                 ...item.prices,
-                price: product.prices.price,
-                sale_price: product.prices.sale_price,
-                regular_price: product.prices.regular_price,
+                price: item.prices.price,
+                sale_price: item.prices.sale_price,
+                regular_price: item.prices.regular_price,
               },
             };
           }
@@ -163,13 +165,13 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
         });
       } else {
         // Item doesn't exist, create new cart item
-        const unitPrice = parseFloat(product.prices.sale_price || product.prices.price || '0');
+        const unitPrice = parseFloat(product?.prices.sale_price || product?.prices.price || '0');
         const lineTotal = unitPrice * quantity;
 
         const newCartItem: CartItem = {
-          key: `${product.id}-${getVariationKey(variation)}-${Date.now()}`,
-          id: product.id,
-          type: product.type,
+          key: `${productId}-${getVariationKey(variation)}-${Date.now()}`,
+          id: parseInt(productId, 10),
+          type: product?.type || 'simple',
           quantity,
           catalog_visibility: 'visible',
           quantity_limits: {
@@ -178,25 +180,26 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
             multiple_of: 1,
             editable: true,
           },
-          name: product.name,
-          summary: product.short_description,
-          short_description: product.short_description,
-          description: product.description,
-          sku: product.sku,
-          low_stock_remaining: product.low_stock_remaining,
-          backorders_allowed: product.is_on_backorder,
-          show_backorder_badge: product.is_on_backorder,
-          sold_individually: product.sold_individually,
-          permalink: product.permalink,
-          images: product.images.map((img) => ({
-            id: img.id,
-            src: img.src,
-            thumbnail: img.thumbnail,
-            srcset: img.srcset,
-            sizes: img.sizes,
-            name: img.name,
-            alt: img.alt,
-          })),
+          name: product?.name || '',
+          summary: product?.short_description || '',
+          short_description: product?.short_description || '',
+          description: product?.description || '',
+          sku: product?.sku || '',
+          low_stock_remaining: product?.low_stock_remaining || null,
+          backorders_allowed: product?.is_on_backorder || false,
+          show_backorder_badge: product?.is_on_backorder || false,
+          sold_individually: product?.sold_individually || false,
+          permalink: product?.permalink || '',
+          images:
+            product?.images?.map((img) => ({
+              id: img.id,
+              src: img.src,
+              thumbnail: img.thumbnail,
+              srcset: img.srcset,
+              sizes: img.sizes,
+              name: img.name,
+              alt: img.alt,
+            })) || [],
           variation: variation
             ? variation.map((v) => ({
                 attribute: v.attribute,
@@ -205,15 +208,15 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
               }))
             : [],
           prices: {
-            price: product.prices.price,
-            regular_price: product.prices.regular_price,
-            sale_price: product.prices.sale_price,
-            price_range: product.prices.price_range,
+            price: product?.prices.price || '',
+            regular_price: product?.prices.regular_price || '',
+            sale_price: product?.prices.sale_price || '',
+            price_range: product?.prices.price_range || null,
             raw_prices: {
               precision: 2,
-              price: product.prices.price,
-              regular_price: product.prices.regular_price,
-              sale_price: product.prices.sale_price,
+              price: product?.prices.price || '',
+              regular_price: product?.prices.regular_price || '',
+              sale_price: product?.prices.sale_price || '',
             },
             currency_code: currentCart.totals.currency_code || 'USD',
             currency_symbol: currentCart.totals.currency_symbol,
@@ -260,18 +263,18 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
     }
 
     case 'UPDATE_ITEM': {
-      const { product, quantity, variation } = action.payload;
+      const { productId, quantity, variation } = action.payload;
 
       // Filter out items if quantity is 0 or less, otherwise update the item
       const updatedItems =
         quantity <= 0
           ? currentCart.items.filter(
-              (_, index) => index !== findCartItemIndex(currentCart.items, product.id, variation)
+              (_, index) => index !== findCartItemIndex(currentCart.items, parseInt(productId, 10), variation)
             )
           : currentCart.items.map((item, index) => {
-              const targetIndex = findCartItemIndex(currentCart.items, product.id, variation);
+              const targetIndex = findCartItemIndex(currentCart.items, parseInt(productId, 10), variation);
               if (index === targetIndex) {
-                const unitPrice = parseFloat(product.prices.sale_price || product.prices.price || '0');
+                const unitPrice = parseFloat(item.prices.sale_price || item.prices.price || '0');
                 const lineTotal = unitPrice * quantity;
 
                 return {
@@ -284,9 +287,9 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
                   },
                   prices: {
                     ...item.prices,
-                    price: product.prices.price,
-                    sale_price: product.prices.sale_price,
-                    regular_price: product.prices.regular_price,
+                    price: item.prices.price,
+                    sale_price: item.prices.sale_price,
+                    regular_price: item.prices.regular_price,
                   },
                 };
               }
@@ -311,10 +314,9 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
 
     case 'REMOVE_ITEM': {
       const { productId, variation } = action.payload;
-      const productIdNum = typeof productId === 'string' ? parseInt(productId, 10) : productId;
 
       const updatedItems = currentCart.items.filter(
-        (_, index) => index !== findCartItemIndex(currentCart.items, productIdNum, variation)
+        (_, index) => index !== findCartItemIndex(currentCart.items, parseInt(productId, 10), variation)
       );
 
       // Calculate new totals
@@ -342,19 +344,16 @@ export function CartProvider({ cart, children }: { children: React.ReactNode; ca
   const [optimisticCart, updateOptimisticCart] = useOptimistic(cart, cartReducer);
 
   const addCartItem = (
-    product: ProductResponseItem,
+    productId: string,
     quantity: number,
-    variation?: { attribute: string; value: string }[]
+    variation?: { attribute: string; value: string }[],
+    product?: ProductResponseItem
   ) => {
-    updateOptimisticCart({ type: 'ADD_ITEM', payload: { product, quantity, variation } });
+    updateOptimisticCart({ type: 'ADD_ITEM', payload: { productId, quantity, variation, product } });
   };
 
-  const updateCartItem = (
-    product: ProductResponseItem,
-    quantity: number,
-    variation?: { attribute: string; value: string }[]
-  ) => {
-    updateOptimisticCart({ type: 'UPDATE_ITEM', payload: { product, quantity, variation } });
+  const updateCartItem = (productId: string, quantity: number, variation?: { attribute: string; value: string }[]) => {
+    updateOptimisticCart({ type: 'UPDATE_ITEM', payload: { productId, quantity, variation } });
   };
 
   const removeCartItem = (productId: string, variation?: { attribute: string; value: string }[]) => {

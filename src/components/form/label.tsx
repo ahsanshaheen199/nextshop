@@ -1,16 +1,13 @@
-import { LabelHTMLAttributes } from "react";
-import { twMerge } from "tailwind-merge";
+import { LabelHTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-interface FormLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {}
+type FormLabelProps = LabelHTMLAttributes<HTMLLabelElement>;
 
 export function FormLabel({ className, children, ...rest }: FormLabelProps) {
   return (
     <label
       {...rest}
-      className={twMerge(
-        "font-medium text-base text-black font-satoshi-medium cursor-pointer",
-        className
-      )}
+      className={twMerge('cursor-pointer font-satoshi-medium text-base font-medium text-black', className)}
     >
       {children}
     </label>

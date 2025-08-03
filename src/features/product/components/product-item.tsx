@@ -1,6 +1,5 @@
 'use client';
 
-import { Product } from '@/features/product/types';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Rating } from '@/features/product/components/rating';
@@ -11,7 +10,7 @@ import { ProductResponseItem } from '@/types/product-response';
 import { useActionState } from 'react';
 
 type Props = {
-  product: Product;
+  product: ProductResponseItem;
 };
 
 export function ProductItem({ product }: Props) {
@@ -23,11 +22,7 @@ export function ProductItem({ product }: Props) {
     <div className="group/product-item relative mb-5 overflow-hidden">
       {product.images.length > 0 ? (
         <div className="rounded-[20px]">
-          <Link
-            prefetch={true}
-            href={`/products/${product.slug}`}
-            className="group/product-item-link relative block overflow-hidden"
-          >
+          <Link href={`/products/${product.slug}`} className="group/product-item-link relative block overflow-hidden">
             <Image
               loading={'eager'}
               width={400}
@@ -51,11 +46,7 @@ export function ProductItem({ product }: Props) {
         </div>
       ) : (
         <div className="rounded-[20px]">
-          <Link
-            prefetch={true}
-            href={`/products/${product.slug}`}
-            className="group/product-item-link relative block overflow-hidden"
-          >
+          <Link href={`/products/${product.slug}`} className="group/product-item-link relative block overflow-hidden">
             <Image
               loading={'eager'}
               width={400}
@@ -101,23 +92,49 @@ export function ProductItem({ product }: Props) {
             ) : null)}
         </div>
         <div className="flex w-full justify-center bg-white transition-opacity group-hover/product-item:opacity-100 lg:absolute lg:bottom-[-2.2rem] lg:opacity-0">
-          <form
-            action={async () => {
-              addCartItem(product as unknown as ProductResponseItem, 1);
-              await addItemAction();
-            }}
-          >
+          {product.type === 'simple' && product.is_in_stock ? (
+            <form
+              action={async () => {
+                addCartItem(product.id.toString(), 1, [], product);
+                await addItemAction();
+              }}
+            >
+              <button
+                type="submit"
+                disabled={isPending}
+                className="w-auto cursor-pointer rounded-full border border-black bg-black px-7 py-3 font-satoshi-medium text-base text-white disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Add to Cart
+              </button>
+              <p aria-live="polite" className="sr-only" role="status">
+                {state?.success || state?.error}
+              </p>
+            </form>
+          ) : null}
+          {product.type === 'simple' && !product.is_in_stock ? (
             <button
-              type="submit"
-              disabled={isPending}
+              disabled={true}
               className="w-auto cursor-pointer rounded-full border border-black bg-black px-7 py-3 font-satoshi-medium text-base text-white disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Add to Cart
+              Out of Stock
             </button>
-            <p aria-live="polite" className="sr-only" role="status">
-              {state?.success || state?.error}
-            </p>
-          </form>
+          ) : null}
+          {product.type === 'grouped' ? (
+            <Link
+              href={`/products/${product.slug}`}
+              className="w-auto cursor-pointer rounded-full border border-black bg-black px-7 py-3 font-satoshi-medium text-base text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              View Products
+            </Link>
+          ) : null}
+          {product.type === 'variable' ? (
+            <Link
+              href={`/products/${product.slug}`}
+              className="w-auto cursor-pointer rounded-full border border-black bg-black px-7 py-3 font-satoshi-medium text-base text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Select Options
+            </Link>
+          ) : null}
         </div>
       </div>
     </div>
