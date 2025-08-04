@@ -6,7 +6,7 @@ export async function login(prevState: unknown, formData: FormData) {
   const username = formData.has('username') ? formData.get('username')?.toString() : '';
   const password = formData.has('password') ? formData.get('password')?.toString() : '';
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/jwt-auth/v1/token`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/headless/v1/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
