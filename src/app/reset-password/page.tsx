@@ -1,13 +1,14 @@
 import { Breadcrumb } from '@/components/breadcrumb';
-import { LoginForm } from '@/features/login/components/login-form';
+import { ChevronRight } from '@/components/icons/chevron-right';
+import { ResetPasswordForm } from '@/features/reset-password/components/reset-password-form';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Login',
+  title: 'Reset Password',
 };
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
   return (
     <main>
       <div className="container">
@@ -15,25 +16,18 @@ export default function LoginPage() {
           <Breadcrumb
             links={[
               { title: 'Home', href: '/' },
-
-              { title: 'Login', href: '#' },
+              { title: 'Reset Password', href: '#' },
             ]}
           />
         </div>
         <div className="pb-12 lg:grid lg:grid-cols-12 lg:pb-20">
           <div className="lg:col-start-4 lg:col-end-10">
             <div className="mb-6">
-              <h1 className="text-center text-2xl">Sign in to your account</h1>
+              <h1 className="text-center text-2xl">Reset Your Password</h1>
             </div>
 
             <div className="rounded-2.5xl border border-black/10 p-6">
-              <LoginForm />
-              <p className="mt-5 flex gap-x-2 text-center text-sm text-black/60">
-                Not a member?
-                <Link href="/register" className="font-semibold text-black hover:text-gray-700 hover:underline">
-                  Register Here
-                </Link>
-              </p>
+              <ResetPasswordForm />
             </div>
           </div>
         </div>

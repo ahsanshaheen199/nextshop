@@ -20,8 +20,8 @@ export default function RegisterPage() {
             ]}
           />
         </div>
-        <div className="grid grid-cols-12 pb-12 lg:pb-20">
-          <div className="col-start-4 col-end-10">
+        <div className="pb-12 lg:grid lg:grid-cols-12 lg:pb-20">
+          <div className="lg:col-start-4 lg:col-end-10">
             <div className="mb-6">
               <h1 className="text-center text-2xl">Create your account</h1>
             </div>

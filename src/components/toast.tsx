@@ -21,7 +21,7 @@ function Toast(props: ToastProps) {
   return (
     <div
       className={twMerge(
-        'z-20 flex w-[400px] justify-between rounded-lg border p-5',
+        'z-20 flex w-[364px] justify-between rounded-lg border p-5',
         type === 'success' && 'border-[#1B5728]/10 bg-[#F2FDF5]',
         type === 'error' && 'border-[#571B23]/10 bg-[rgba(255,229,229,1)]'
       )}

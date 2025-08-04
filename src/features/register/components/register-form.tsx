@@ -18,7 +18,7 @@ export function RegisterForm() {
 
   useEffect(() => {
     if (state?.success) {
-      router.push('/my-account');
+      router.push('/login');
       toast({
         title: 'Success!',
         description: 'You have successfully created your account.',

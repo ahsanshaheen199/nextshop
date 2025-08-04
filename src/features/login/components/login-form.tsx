@@ -9,6 +9,7 @@ import { useActionState, useEffect, useState } from 'react';
 import { login } from '../actions';
 import { toast } from '@/components/toast';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -46,9 +47,15 @@ export function LoginForm() {
         <FormInput id="username" className="w-full" type="text" name="username" defaultValue={state?.username || ''} />
       </div>
       <div className="mb-7">
-        <FormLabel htmlFor="password" className="mb-2.5 inline-block">
-          Password <span className="text-base text-red-500">*</span>
-        </FormLabel>
+        <div className="mb-2.5 flex justify-between">
+          <FormLabel htmlFor="password" className="inline-block">
+            Password <span className="text-base text-red-500">*</span>
+          </FormLabel>
+          <Link href="/forgot-password" className="text-sm text-black hover:text-gray-700 hover:underline">
+            Forgot Password?
+          </Link>
+        </div>
+
         <div className="relative">
           <FormInput
             id="password"
@@ -69,7 +76,7 @@ export function LoginForm() {
         </div>
       </div>
       <div>
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" isLoading={isPending} disabled={isPending}>
           {isPending ? 'Signing in...' : 'Sign in'}
         </Button>
       </div>

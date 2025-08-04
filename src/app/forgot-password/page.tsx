@@ -1,13 +1,14 @@
 import { Breadcrumb } from '@/components/breadcrumb';
-import { LoginForm } from '@/features/login/components/login-form';
+import { ChevronRight } from '@/components/icons/chevron-right';
+import { ForgotPasswordForm } from '@/features/forgot-password/components/forgot-password-form';
 import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Login',
+  title: 'Forgot Password',
 };
 
-export default function LoginPage() {
+export default function ForgotPasswordPage() {
   return (
     <main>
       <div className="container">
@@ -16,22 +17,22 @@ export default function LoginPage() {
             links={[
               { title: 'Home', href: '/' },
 
-              { title: 'Login', href: '#' },
+              { title: 'Forgot Password', href: '#' },
             ]}
           />
         </div>
         <div className="pb-12 lg:grid lg:grid-cols-12 lg:pb-20">
           <div className="lg:col-start-4 lg:col-end-10">
             <div className="mb-6">
-              <h1 className="text-center text-2xl">Sign in to your account</h1>
+              <h1 className="text-center text-2xl">Lost Password</h1>
             </div>
 
             <div className="rounded-2.5xl border border-black/10 p-6">
-              <LoginForm />
-              <p className="mt-5 flex gap-x-2 text-center text-sm text-black/60">
-                Not a member?
-                <Link href="/register" className="font-semibold text-black hover:text-gray-700 hover:underline">
-                  Register Here
+              <ForgotPasswordForm />
+              <p className="mt-5 flex items-center gap-x-0.5 text-center text-sm text-black">
+                <ChevronRight className="h-4 w-4 rotate-180" />
+                <Link href="/login" className="font-semibold hover:text-gray-700 hover:underline">
+                  Return to login
                 </Link>
               </p>
             </div>
