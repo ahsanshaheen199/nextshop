@@ -9,6 +9,8 @@ import { twMerge } from 'tailwind-merge';
 import { useSearchParams } from 'next/navigation';
 import { EyeIcon } from '@/components/icons/eye';
 import { EyeOffIcon } from '@/components/icons/eye-off';
+import Link from 'next/link';
+import { ChevronRight } from '@/components/icons/chevron-right';
 
 export function ResetPasswordForm() {
   const [state, formAction, isPending] = useActionState(resetPassword, null);
@@ -44,6 +46,12 @@ export function ResetPasswordForm() {
           </div>
         </div>
         <p className="mt-2 text-sm text-black/60">You can now use your new password to log in to your account.</p>
+        <p className="mt-5 flex items-center gap-x-0.5 text-center text-sm text-black">
+          <ChevronRight className="h-4 w-4 rotate-180" />
+          <Link href="/login" className="font-semibold hover:text-gray-700 hover:underline">
+            Return to login
+          </Link>
+        </p>
       </Fragment>
     );
   }

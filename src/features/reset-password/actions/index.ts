@@ -1,7 +1,7 @@
 'use server';
 
 export async function resetPassword(prevState: unknown, formData: FormData) {
-  const token = formData.has('key') ? formData.get('key')?.toString() : '';
+  const key = formData.has('key') ? formData.get('key')?.toString() : '';
   const login = formData.has('login') ? formData.get('login')?.toString() : '';
   const password = formData.has('password') ? formData.get('password')?.toString() : '';
   const confirmPassword = formData.has('confirm_password') ? formData.get('confirm_password')?.toString() : '';
@@ -12,7 +12,7 @@ export async function resetPassword(prevState: unknown, formData: FormData) {
   }
 
   // Validate token exists
-  if (!token || !login) {
+  if (!key || !login) {
     return { error: true, message: 'Invalid or missing reset token or login' };
   }
 
@@ -22,11 +22,13 @@ export async function resetPassword(prevState: unknown, formData: FormData) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      token: token,
+      key: key,
       password: password,
       login: login,
     }),
   });
+
+  console.log(await res.json());
 
   if (res.ok) {
     return { success: true };
