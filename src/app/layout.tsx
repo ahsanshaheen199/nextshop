@@ -20,13 +20,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cart = await getCart();
+  const cart = getCart();
 
   return (
     <html lang="en">
       <body className="antialiased">
         <QueryProvider>
-          <CartProvider cart={cart}>
+          <CartProvider cartPromise={cart}>
             <Header />
             {children}
             <Footer />

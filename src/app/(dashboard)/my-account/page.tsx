@@ -1,15 +1,18 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { getUser } from '@/dal/get-user';
 
 export const metadata: Metadata = {
   title: 'My Account',
 };
 
-export default function MyAccountPage() {
+export default async function MyAccountPage() {
+  const user = await getUser();
+
   return (
     <div>
       <p className="mb-4 text-base text-black/60">
-        Hello, <span className="font-bold">John Doe</span>
+        Hello, <span className="font-bold">{user.name}</span>
       </p>
       <p className="text-base text-black/60">
         From your account dashboard you can view your{' '}

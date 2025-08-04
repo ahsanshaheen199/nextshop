@@ -21,34 +21,32 @@ function Toast(props: ToastProps) {
   return (
     <div
       className={twMerge(
-        'z-20 flex w-full justify-between rounded-lg border p-5 md:max-w-[400px]',
+        'z-20 flex w-[400px] justify-between rounded-lg border p-5',
         type === 'success' && 'border-[#1B5728]/10 bg-[#F2FDF5]',
         type === 'error' && 'border-[#571B23]/10 bg-[rgba(255,229,229,1)]'
       )}
     >
-      <div className="flex flex-1 items-center">
-        <div className="w-full">
+      <div className="flex flex-1 flex-col">
+        <p
+          className={twMerge(
+            'text-sm font-semibold',
+            type === 'success' && 'text-[#306339]',
+            type === 'error' && 'text-[#9F2225]'
+          )}
+        >
+          {title}
+        </p>
+        {description && (
           <p
             className={twMerge(
-              'text-sm font-semibold',
-              type === 'success' && 'text-[#306339]',
+              'mt-1 text-sm',
+              type === 'success' && 'text-[#15803D]',
               type === 'error' && 'text-[#9F2225]'
             )}
           >
-            {title}
+            {description}
           </p>
-          {description && (
-            <p
-              className={twMerge(
-                'mt-1 text-sm',
-                type === 'success' && 'text-[#15803D]',
-                type === 'error' && 'text-[#9F2225]'
-              )}
-            >
-              {description}
-            </p>
-          )}
-        </div>
+        )}
       </div>
       <div className="ml-2 shrink-0">
         <button

@@ -24,9 +24,9 @@ export async function login(prevState: unknown, formData: FormData) {
     (await cookies()).set('session', data.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 60 * 60 * 24 * 7,
       path: '/',
       sameSite: 'lax',
+      expires: new Date(Date.now() + 60 * 60 * 24 * 7 * 1000),
     });
     return {
       success: true,

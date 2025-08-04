@@ -3,7 +3,7 @@
 import { CartResponse } from '@/types/cart-response';
 import { CartItem } from '@/types/cart';
 import { ProductResponseItem } from '@/types/product-response';
-import { createContext, useContext, useOptimistic } from 'react';
+import { createContext, use, useContext, useOptimistic } from 'react';
 
 type CartContextType = {
   cart: CartResponse | undefined;
@@ -340,7 +340,14 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
   }
 }
 
-export function CartProvider({ cart, children }: { children: React.ReactNode; cart: CartResponse | undefined }) {
+export function CartProvider({
+  cartPromise,
+  children,
+}: {
+  children: React.ReactNode;
+  cartPromise: Promise<CartResponse | undefined>;
+}) {
+  const cart = use(cartPromise);
   const [optimisticCart, updateOptimisticCart] = useOptimistic(cart, cartReducer);
 
   const addCartItem = (
