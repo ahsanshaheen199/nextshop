@@ -5,7 +5,7 @@ import { cookies } from 'next/headers';
 export const getUser = cache(async () => {
   const session = (await cookies()).get('session');
 
-  const user = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wp-json/wp/v2/users/me`, {
+  const user = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wp/v2/users/me`, {
     headers: {
       Authorization: `Bearer ${session}`,
     },
