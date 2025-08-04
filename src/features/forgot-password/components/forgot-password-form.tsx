@@ -3,7 +3,7 @@
 import { FormInput } from '@/components/form/input';
 import { FormLabel } from '@/components/form/label';
 import { Button } from '@/components/form/button';
-import { Fragment, useActionState, useEffect, useState } from 'react';
+import { Fragment, useActionState } from 'react';
 import { forgotPassword } from '../actions';
 import { twMerge } from 'tailwind-merge';
 

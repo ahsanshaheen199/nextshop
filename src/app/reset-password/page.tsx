@@ -1,8 +1,6 @@
 import { Breadcrumb } from '@/components/breadcrumb';
-import { ChevronRight } from '@/components/icons/chevron-right';
 import { ResetPasswordForm } from '@/features/reset-password/components/reset-password-form';
 import { Metadata } from 'next';
-import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
