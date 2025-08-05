@@ -19,7 +19,7 @@ export const getUser = cache(async () => {
 
   return {
     id: userData.id,
-    name: userData.first_name + ' ' + userData.last_name,
+    name: userData.name,
     email: userData.email,
   };
 });

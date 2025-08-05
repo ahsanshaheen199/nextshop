@@ -1,6 +1,7 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export async function login(prevState: unknown, formData: FormData) {
   const username = formData.has('username') ? formData.get('username')?.toString() : '';
@@ -44,7 +45,5 @@ export async function login(prevState: unknown, formData: FormData) {
 
 export async function logout() {
   (await cookies()).delete('session');
-  return {
-    success: true,
-  };
+  redirect('/login');
 }

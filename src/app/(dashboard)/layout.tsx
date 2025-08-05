@@ -1,6 +1,6 @@
-import { Breadcrumb } from '@/components/breadcrumb';
 import { LogoutLink } from '@/features/my-account/components/logout-link';
 import { NavLink } from '@/features/my-account/components/nav-link';
+import { MyAccountBreadcrumb } from '@/features/my-account/components/breadcrumb';
 
 export default function AuthenticatedLayout({ children }: { children: React.ReactNode }) {
   const navLinks = [
@@ -30,12 +30,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
     <main>
       <div className="container">
         <div className="border-t border-black/10 pt-6 pb-9">
-          <Breadcrumb
-            links={[
-              { title: 'Home', href: '/' },
-              { title: 'My Account', href: '#' },
-            ]}
-          />
+          <MyAccountBreadcrumb />
         </div>
 
         <div className="pb-20 lg:flex lg:gap-10">
