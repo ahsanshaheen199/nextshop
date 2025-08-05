@@ -34,6 +34,7 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
         </div>
 
         <div className="pb-20 lg:flex lg:gap-10">
+          <div className="w-full lg:w-4/5">{children}</div>
           <div className="w-full lg:w-1/5">
             <nav>
               <ul className="flex flex-col divide-y divide-black/10">
@@ -49,7 +50,6 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
               </ul>
             </nav>
           </div>
-          <div className="w-full lg:w-4/5">{children}</div>
         </div>
       </div>
     </main>

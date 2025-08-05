@@ -1,19 +1,19 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getUser } from '@/dal/get-user';
+import { Suspense } from 'react';
+import { User } from '@/features/my-account/components/user';
 
 export const metadata: Metadata = {
   title: 'My Account',
 };
 
 export default async function MyAccountPage() {
-  const user = await getUser();
-
   return (
     <div>
-      <p className="mb-4 text-base text-black/60">
-        Hello, <span className="font-bold">{user.name}</span>
-      </p>
+      <Suspense fallback={<div className="mb-4 h-4 w-32 animate-pulse rounded-full bg-gray-200" />}>
+        <User />
+      </Suspense>
+
       <p className="text-base text-black/60">
         From your account dashboard you can view your{' '}
         <Link className="text-black hover:underline" href="/my-account/orders">
