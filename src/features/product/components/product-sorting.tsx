@@ -3,7 +3,7 @@
 import * as Select from '@radix-ui/react-select';
 import { ChevronDown } from '@/components/icons/chevron-down';
 import { useTransition } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@bprogress/next/app';
 
 const sortArr = [
   { title: 'Default', value: 'default' },

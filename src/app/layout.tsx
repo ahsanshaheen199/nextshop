@@ -6,6 +6,7 @@ import { CartProvider } from '@/providers/cart-provider';
 import { getCart } from '@/features/cart/queries';
 import { QueryProvider } from '@/providers/query-provider';
 import { Toaster } from 'sonner';
+import { ProgressBarProvider } from '@/providers/progressbar-provider';
 
 export const metadata: Metadata = {
   title: {
@@ -26,12 +27,14 @@ export default async function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <QueryProvider>
-          <CartProvider cartPromise={cart}>
-            <Header />
-            {children}
-            <Footer />
-            <Toaster position="top-center" offset={100} />
-          </CartProvider>
+          <ProgressBarProvider>
+            <CartProvider cartPromise={cart}>
+              <Header />
+              {children}
+              <Footer />
+              <Toaster position="top-center" offset={100} />
+            </CartProvider>
+          </ProgressBarProvider>
         </QueryProvider>
       </body>
     </html>

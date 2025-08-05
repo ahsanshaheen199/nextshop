@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { SearchIcon } from '../icons/search';
-import { useRouter } from 'next/navigation';
 import { Product } from '@/features/product/types';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
@@ -10,6 +9,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { twMerge } from 'tailwind-merge';
 import { Cross } from '../icons/cross';
+import { useRouter } from '@bprogress/next/app';
 
 export function ProductSearch() {
   const [searchTerm, setSearchTerm] = useState('');

@@ -8,8 +8,8 @@ import { EyeOffIcon } from '@/components/icons/eye-off';
 import { useActionState, useEffect, useState } from 'react';
 import { login } from '../actions';
 import { toast } from '@/components/toast';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { useRouter } from '@bprogress/next/app';
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
