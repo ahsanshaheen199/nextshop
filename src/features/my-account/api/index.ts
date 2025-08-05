@@ -1,6 +1,7 @@
 import { apiFetch } from '@/lib/app-fetch';
 import { Download } from '@/types/download';
 import { Order, OrdersResponse } from '@/types/order';
+import { Customer } from '@/types/user';
 
 export async function getDownloads(id: number) {
   const response = await apiFetch(`/wc/v3/customers/${id}/downloads`);
@@ -28,4 +29,17 @@ export async function getOrders(id: number): Promise<OrdersResponse | { orders: 
     total: total ? parseInt(total) : 0,
     totalPages: totalPages ? parseInt(totalPages) : 0,
   };
+}
+
+export async function getCustomerDetails(id: number) {
+  const response = await apiFetch(`/wc/v3/customers/${id}`, {
+    next: {
+      tags: ['customer'],
+    },
+  });
+  if (!response.ok) {
+    return;
+  }
+  const data = (await response.json()) as Customer;
+  return data;
 }
