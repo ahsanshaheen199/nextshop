@@ -29,8 +29,6 @@ export async function register(prevState: unknown, formData: FormData) {
     message: string;
   };
 
-  console.log(result);
-
   return {
     success: false,
     error: result.message,

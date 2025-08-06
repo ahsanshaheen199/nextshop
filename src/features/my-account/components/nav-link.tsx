@@ -1,13 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 export function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   const pathname = usePathname();
+  const { orderId } = useParams();
   const isActive = (href: string) =>
-    pathname === href || pathname === `${href}/billing` || pathname === `${href}/shipping`;
+    pathname === href ||
+    pathname === `${href}/billing` ||
+    pathname === `${href}/shipping` ||
+    pathname === `${href}/${orderId}`;
 
   return (
     <Link

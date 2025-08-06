@@ -28,8 +28,6 @@ export async function resetPassword(prevState: unknown, formData: FormData) {
     }),
   });
 
-  console.log(await res.json());
-
   if (res.ok) {
     return { success: true };
   }

@@ -33,9 +33,9 @@ export default function AuthenticatedLayout({ children }: { children: React.Reac
           <MyAccountBreadcrumb />
         </div>
 
-        <div className="pb-20 lg:flex lg:gap-10">
-          <div className="w-full lg:w-4/5">{children}</div>
-          <div className="w-full lg:w-1/5">
+        <div className="flex flex-col gap-10 pb-20 lg:flex-row">
+          <div className="order-2 w-full lg:order-1 lg:w-4/5">{children}</div>
+          <div className="order-1 w-full lg:order-2 lg:w-1/5">
             <nav>
               <ul className="flex flex-col divide-y divide-black/10">
                 {navLinks.map((link) => (

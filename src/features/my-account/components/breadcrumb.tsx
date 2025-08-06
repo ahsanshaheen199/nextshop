@@ -15,8 +15,8 @@ export function MyAccountBreadcrumb() {
     links.push({ title: 'Downloads', href: '#' });
   }
 
-  if (location === '/my-account/orders') {
-    links.push({ title: 'Orders', href: '#' });
+  if (location.startsWith('/my-account/orders')) {
+    links.push({ title: 'Orders', href: '/my-account/orders' });
   }
 
   if (location === '/my-account/edit-address') {

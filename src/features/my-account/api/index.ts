@@ -2,6 +2,7 @@ import { apiFetch } from '@/lib/app-fetch';
 import { Download } from '@/types/download';
 import { Order, OrdersResponse } from '@/types/order';
 import { Customer } from '@/types/user';
+import { notFound } from 'next/navigation';
 import { cache } from 'react';
 
 export async function getDownloads(id: number) {
@@ -47,4 +48,17 @@ export async function getCustomerDetails(id: number) {
 
 export const getCustomer = cache(async (id: number) => {
   return await getCustomerDetails(id);
+});
+
+export async function getOrderDetails(id: string) {
+  const response = await apiFetch(`/wc/v3/orders/${id}`);
+  if (!response.ok) {
+    notFound();
+  }
+  const data = (await response.json()) as Order;
+  return data;
+}
+
+export const getOrder = cache(async (id: string) => {
+  return await getOrderDetails(id);
 });

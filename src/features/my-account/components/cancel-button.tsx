@@ -27,7 +27,7 @@ export function CancelButton({ orderId }: { orderId: number }) {
   }
 
   return (
-    <form className="w-full" action={formAction}>
+    <form action={formAction}>
       <input type="hidden" name="orderId" value={orderId} />
       <Button type="submit" isLoading={isPending} disabled={isPending}>
         {isPending ? 'Cancelling...' : 'Cancel'}
