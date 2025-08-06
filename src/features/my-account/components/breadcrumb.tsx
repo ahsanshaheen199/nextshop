@@ -23,6 +23,14 @@ export function MyAccountBreadcrumb() {
     links.push({ title: 'Addresses', href: '#' });
   }
 
+  if (location === '/my-account/edit-address/billing') {
+    links.push({ title: 'Addresses', href: '#' });
+  }
+
+  if (location === '/my-account/edit-address/shipping') {
+    links.push({ title: 'Addresses', href: '#' });
+  }
+
   if (location === '/my-account/edit-account') {
     links.push({ title: 'Account Details', href: '#' });
   }

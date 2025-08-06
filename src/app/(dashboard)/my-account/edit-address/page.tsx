@@ -1,6 +1,6 @@
-import { BillingAddress } from '@/features/my-account/components/billing-address';
+import { BillingAddressCard } from '@/features/my-account/components/billing-address-card';
 import { BillingAddressSkeleton } from '@/features/my-account/components/billing-address-skeleton';
-import { ShippingAddress } from '@/features/my-account/components/shipping-address';
+import { ShippingAddressCard } from '@/features/my-account/components/shipping-address-card';
 import { ShippingAddressSkeleton } from '@/features/my-account/components/shipping-address-skeleton';
 import { Suspense } from 'react';
 
@@ -15,13 +15,13 @@ export default function EditAddressPage() {
         <div className="mb-5 lg:col-span-6 lg:mb-0">
           <h2 className="mb-2 font-satoshi-bold text-2xl text-black">Billing Address</h2>
           <Suspense fallback={<BillingAddressSkeleton />}>
-            <BillingAddress />
+            <BillingAddressCard />
           </Suspense>
         </div>
         <div className="lg:col-span-6">
           <h2 className="mb-2 font-satoshi-bold text-2xl text-black">Shipping Address</h2>
           <Suspense fallback={<ShippingAddressSkeleton />}>
-            <ShippingAddress />
+            <ShippingAddressCard />
           </Suspense>
         </div>
       </div>

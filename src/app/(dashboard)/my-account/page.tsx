@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default async function MyAccountPage() {
   return (
     <div>
-      <Suspense fallback={<div className="mb-4 h-4 w-32 animate-pulse rounded-full bg-gray-200" />}>
+      <Suspense fallback={<div className="mb-4 h-6 w-32 animate-pulse rounded-full bg-gray-200" />}>
         <User />
       </Suspense>
 

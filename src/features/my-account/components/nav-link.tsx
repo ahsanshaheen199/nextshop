@@ -6,7 +6,8 @@ import { twMerge } from 'tailwind-merge';
 
 export function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
   const pathname = usePathname();
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) =>
+    pathname === href || pathname === `${href}/billing` || pathname === `${href}/shipping`;
 
   return (
     <Link
