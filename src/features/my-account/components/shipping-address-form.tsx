@@ -75,8 +75,8 @@ export function ShippingAddressForm({ customer }: { customer: Customer }) {
           <input type="hidden" name="customerId" value={customer.id} />
 
           {/* First Name and Last Name */}
-          <div className="mb-5 grid grid-cols-12 gap-x-5">
-            <div className="col-span-6">
+          <div className="mb-5 md:grid md:grid-cols-12 md:gap-x-5">
+            <div className="mb-5 md:col-span-6 md:mb-0">
               <FormLabel htmlFor="firstName" className="mb-2.5 inline-flex gap-x-1">
                 First Name <span className="text-red-500">*</span>
               </FormLabel>
@@ -88,7 +88,7 @@ export function ShippingAddressForm({ customer }: { customer: Customer }) {
                 onChange={(e) => setShippingFormData({ ...shippingFormData, first_name: e.target.value })}
               />
             </div>
-            <div className="col-span-6">
+            <div className="md:col-span-6">
               <FormLabel htmlFor="lastName" className="mb-2.5 inline-flex gap-x-1">
                 Last Name <span className="text-red-500">*</span>
               </FormLabel>

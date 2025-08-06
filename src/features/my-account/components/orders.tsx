@@ -22,19 +22,19 @@ export async function Orders() {
         <table className="relative min-w-full divide-y divide-black/10">
           <thead>
             <tr>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Order
               </th>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Date
               </th>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Status
               </th>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Total
               </th>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Actions
               </th>
             </tr>
@@ -51,16 +51,16 @@ export async function Orders() {
 
               return (
                 <tr key={order.id}>
-                  <td className="px-3 py-4 text-center text-sm font-medium whitespace-nowrap">
-                    <Link href={`/my-account/orders/${order.id}`} className="text-black underline">
+                  <td className="px-3 py-4 text-center text-base font-medium whitespace-nowrap">
+                    <Link href={`/my-account/orders/${order.id}`} className="font-semibold text-black underline">
                       #{order.id}
                     </Link>
                   </td>
-                  <td className="px-3 py-4 text-center text-sm whitespace-nowrap">{formattedDate}</td>
-                  <td className="px-3 py-4 text-center text-sm whitespace-nowrap capitalize">
+                  <td className="px-3 py-4 text-center text-base whitespace-nowrap">{formattedDate}</td>
+                  <td className="px-3 py-4 text-center text-base whitespace-nowrap capitalize">
                     {order.status.split('-').join(' ')}
                   </td>
-                  <td className="px-3 py-4 text-center text-sm whitespace-nowrap">
+                  <td className="px-3 py-4 text-center text-base whitespace-nowrap">
                     <div className="flex flex-col gap-2">
                       {order.refunds.length > 0 && (
                         <del>
@@ -82,11 +82,11 @@ export async function Orders() {
                       </p>
                     </div>
                   </td>
-                  <td className="px-3 py-4 text-center text-sm whitespace-nowrap">
+                  <td className="px-3 py-4 text-center text-base whitespace-nowrap">
                     <div className="flex flex-col items-center gap-2">
                       {order.needs_payment && <PayButton payment_url={order.payment_url} />}
                       <Link
-                        className="inline-flex cursor-pointer items-center justify-center rounded-full bg-black px-7 py-3 font-satoshi-medium text-sm text-white hover:bg-black/80 disabled:opacity-50 lg:px-10 lg:text-base"
+                        className="inline-flex cursor-pointer items-center justify-center rounded-full bg-black px-7 py-3 font-satoshi-medium text-base text-white hover:bg-black/80 disabled:opacity-50 lg:px-10 lg:text-base"
                         href={`/my-account/orders/${order.id}`}
                       >
                         View

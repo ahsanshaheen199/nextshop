@@ -59,8 +59,8 @@ export function CustomerAccountForm({ customer }: { customer: Customer }) {
       <div className="rounded-2xl border border-black/10 p-6">
         <form action={formAction}>
           <input type="hidden" name="customerId" value={customer.id} />
-          <div className="mb-5 grid grid-cols-12 gap-x-5">
-            <div className="col-span-6">
+          <div className="mb-5 md:grid md:grid-cols-12 md:gap-x-5">
+            <div className="mb-5 md:col-span-6 md:mb-0">
               <FormLabel htmlFor="first-name" className="mb-2.5 inline-flex gap-x-1">
                 First Name <span className="text-red-500">*</span>
               </FormLabel>
@@ -72,7 +72,7 @@ export function CustomerAccountForm({ customer }: { customer: Customer }) {
                 defaultValue={customer.first_name}
               />
             </div>
-            <div className="col-span-6">
+            <div className="md:col-span-6">
               <FormLabel htmlFor="last-name" className="mb-2.5 inline-flex gap-x-1">
                 Last Name <span className="text-red-500">*</span>
               </FormLabel>

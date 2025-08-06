@@ -21,16 +21,16 @@ export async function Downloads() {
         <table className="relative min-w-full divide-y divide-black/10">
           <thead>
             <tr>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Product
               </th>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Downloads Remaining
               </th>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Expires
               </th>
-              <th scope="col" className="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+              <th scope="col" className="px-3 py-3.5 text-center text-base font-semibold text-gray-900">
                 Download
               </th>
             </tr>
@@ -51,16 +51,16 @@ export async function Downloads() {
               }
               return (
                 <tr key={index}>
-                  <td className="px-3 py-4 text-center text-sm font-medium whitespace-nowrap">
+                  <td className="px-3 py-4 text-center text-base font-medium whitespace-nowrap">
                     <Link href={`/products/${download.product_id}`} className="text-black underline">
                       {download.product_name}
                     </Link>
                   </td>
-                  <td className="px-3 py-4 text-center text-sm whitespace-nowrap text-black/60">
+                  <td className="px-3 py-4 text-center text-base whitespace-nowrap text-black/60">
                     {download.downloads_remaining}
                   </td>
-                  <td className="px-3 py-4 text-center text-sm whitespace-nowrap text-black/60">{formattedDate}</td>
-                  <td className="px-3 py-4 text-center text-sm whitespace-nowrap text-black/60">
+                  <td className="px-3 py-4 text-center text-base whitespace-nowrap text-black/60">{formattedDate}</td>
+                  <td className="px-3 py-4 text-center text-base whitespace-nowrap text-black/60">
                     <DownloadItemButton download={download} />
                   </td>
                 </tr>
