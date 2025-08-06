@@ -14,8 +14,16 @@ export async function getDownloads(id: number) {
   return data;
 }
 
-export async function getOrders(id: number): Promise<OrdersResponse | { orders: []; total: null; totalPages: null }> {
-  const response = await apiFetch(`/wc/v3/orders?customer=${id}`, {
+export async function getOrders({
+  id,
+  page,
+  perPage,
+}: {
+  id: number;
+  page: number;
+  perPage: number;
+}): Promise<OrdersResponse | { orders: []; total: null; totalPages: null }> {
+  const response = await apiFetch(`/wc/v3/orders?customer=${id}&per_page=${perPage}&page=${page}`, {
     next: {
       tags: ['orders'],
     },

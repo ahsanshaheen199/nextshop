@@ -1,6 +1,7 @@
 import { Breadcrumb } from '@/components/breadcrumb';
 import { ResetPasswordForm } from '@/features/reset-password/components/reset-password-form';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Reset Password',
@@ -25,7 +26,9 @@ export default function ResetPasswordPage() {
             </div>
 
             <div className="rounded-2.5xl border border-black/10 p-6">
-              <ResetPasswordForm />
+              <Suspense fallback={null}>
+                <ResetPasswordForm />
+              </Suspense>
             </div>
           </div>
         </div>
