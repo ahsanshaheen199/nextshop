@@ -13,6 +13,7 @@ export function apiFetchWithoutAuth(url: string, config: RequestInit = {}) {
   return fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json${url}`, {
     ...config,
     headers: {
+      'Content-Type': 'application/json',
       Accept: 'application/json',
       ...config.headers,
     },

@@ -6,6 +6,11 @@ import { BillingShippingAddress } from '@/features/my-account/components/order-d
 import { OrderInfoSkeleton } from '@/features/my-account/components/order-details/order-info-skeleton';
 import { OrderDetailsSkeleton } from '@/features/my-account/components/order-details/order-details-skeleton';
 import { BillingShippingAddressSkeleton } from '@/features/my-account/components/order-details/billing-shipping-address-skeleton';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Order Details',
+};
 
 export default function OrderDetailsPage({ params }: { params: Params<{ orderId: string }> }) {
   return (

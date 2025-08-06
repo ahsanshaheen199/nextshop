@@ -97,7 +97,7 @@ export function ProductSearch() {
       </div>
       {isOpen && (
         <div className="absolute z-10 w-full rounded border border-black/10 bg-white shadow-lg">
-          <ScrollArea.Root className="h-[300px] w-full overflow-x-hidden">
+          <ScrollArea.Root className="max-h-[300px] w-full overflow-x-hidden">
             <ScrollArea.Viewport className="size-full rounded">
               {products?.length > 0 ? (
                 products.map((product, index) => {
