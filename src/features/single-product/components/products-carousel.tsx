@@ -6,7 +6,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { useEffect } from 'react';
 import { ProductResponseItem } from '@/types/product-response';
 
-export function RelatedProductsCarousel({ products }: { products: ProductResponseItem[] }) {
+export function ProductsCarousel({ products }: { products: ProductResponseItem[] }) {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       slidesToScroll: 'auto',
@@ -36,5 +36,3 @@ export function RelatedProductsCarousel({ products }: { products: ProductRespons
     </div>
   );
 }
-
-export default RelatedProductsCarousel;

@@ -54,3 +54,25 @@ export async function getProductsWithPagination({
     },
   };
 }
+
+export async function getBestSellingProducts() {
+  const response = await apiFetchWithoutAuth(`/wc/store/v1/products?orderby=popularity&order=desc`);
+
+  if (!response.ok) {
+    return [] as ProductResponseItem[];
+  }
+
+  const products = (await response.json()) as ProductResponseItem[];
+  return products;
+}
+
+export async function getNewArrivalsProducts() {
+  const response = await apiFetchWithoutAuth(`/wc/store/v1/products?orderby=date&order=desc`);
+
+  if (!response.ok) {
+    return [] as ProductResponseItem[];
+  }
+
+  const products = (await response.json()) as ProductResponseItem[];
+  return products;
+}
