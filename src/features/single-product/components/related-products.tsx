@@ -1,6 +1,6 @@
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
-import { ProductItem } from '@/features/product/components/product-item';
 import { ProductResponseItem } from '@/types/product-response';
+import RelatedProductsCarousel from '@/features/single-product/components/related-products-carousel';
 
 type Props = {
   ids: number[];
@@ -24,14 +24,7 @@ export async function RelatedProducts({ ids }: Props) {
       <h2 className="mb-10 text-center font-integral-bold text-[32px] leading-[36px] text-black lg:mb-14 lg:text-5xl">
         Related Products
       </h2>
-      <div className="md:grid md:grid-cols-2 md:gap-x-5 lg:grid-cols-4">
-        {relatedProducts.map((product, index) => {
-          if (index === 4) {
-            return;
-          }
-          return <ProductItem key={product.id} product={product} />;
-        })}
-      </div>
+      <RelatedProductsCarousel products={relatedProducts} />
     </div>
   );
 }
