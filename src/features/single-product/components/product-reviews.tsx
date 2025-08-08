@@ -8,9 +8,10 @@ import { Rating } from '@/features/product/components/rating';
 import { Fragment, useState } from 'react';
 import { Button } from '@/components/form/button';
 import { CreateReviewModal } from './create-review-modal';
+import { ProductResponseItem } from '@/types/product-response';
 
 type Props = {
-  product: Product;
+  product: ProductResponseItem;
   session: string | null;
 };
 

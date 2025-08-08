@@ -1,108 +1,77 @@
 import { Params } from '@/types';
-import { apiFetch, apiFetchWithoutAuth } from '@/lib/app-fetch';
-import { notFound } from 'next/navigation';
-import { Breadcrumb } from '@/components/breadcrumb';
-import { Product } from '@/features/product/types';
-import { calculateDiscountPercentage } from '@/utlis';
-import { Rating } from '@/features/product/components/rating';
-import { SingleProductTabs } from '@/features/single-product/components/single-product-tabs';
 import { RelatedProducts } from '@/features/single-product/components/related-products';
-import { Suspense } from 'react';
+import { Fragment, Suspense } from 'react';
 import { ProductSkeleton } from '@/components/skeleton/product-skeleton';
-import { ProductGallery } from '@/features/single-product/components/product-gallery';
-import Image from 'next/image';
+import { SingleProductBreadcrumb } from '@/features/single-product/components/single-product-breadcrumb';
+import { BreadcrumbSkeleton } from '@/components/skeleton/breadcrumb-skeleton';
+import { ProductImages } from '@/features/single-product/components/product-images';
+import { ProductTitle } from '@/features/single-product/components/product-title';
+import { ProductRating } from '@/features/single-product/components/product-rating';
+import { ProductOnSale } from '@/features/single-product/components/product-on-sale';
+import { ProductShortDescription } from '@/features/single-product/components/product-short-description';
+import { ProductTabsWrapper } from '@/features/single-product/components/product-tabs-wrapper';
+import { TabsSkeleton } from '@/features/single-product/components/tabs-skeleton';
 import { AddToCart } from '@/features/single-product/components/add-to-cart';
-import { verifySession } from '@/dal/session';
 
 export default async function SingleProductPage({ params }: { params: Params<{ slug: string }> }) {
-  const { slug } = await params;
-  const session = await verifySession();
-
-  const response = await apiFetchWithoutAuth(`/wc/store/v1/products/${slug}`);
-  if (!response.ok) {
-    notFound();
-  }
-
-  const product = (await response.json()) as Product;
-
-  const settingsResponse = await apiFetch(`/wc/v3/settings/products`);
-
   return (
     <main>
       <div className="container">
-        <div className="border-t border-black/10 pt-6 pb-9">
-          <Breadcrumb
-            links={[
-              { title: 'Home', href: '/' },
-              ...product.categories.map((category) => ({ title: category.name, href: `/categories/${category.slug}` })),
-              { title: product.name, href: '#' },
-            ]}
-          />
-        </div>
+        <Suspense
+          fallback={
+            <div className="border-t border-black/10 pt-6 pb-9">
+              <BreadcrumbSkeleton />
+            </div>
+          }
+        >
+          <SingleProductBreadcrumb params={params} />
+        </Suspense>
         <div className="mb-[50px] grid lg:mb-20 lg:grid-cols-2 lg:gap-x-10">
           <div className="col-span-1">
-            {product.images.length > 1 ? (
-              <ProductGallery product={product} />
-            ) : (
-              <div className="h-[300px] w-full lg:h-[500px]">
-                <Image
-                  width={500}
-                  height={500}
-                  className="h-full w-full rounded-[20px] object-cover"
-                  src={product.images[0]?.src}
-                  alt={product.images[0]?.alt}
-                />
-              </div>
-            )}
+            <Suspense
+              fallback={<div className="h-[300px] animate-pulse rounded-[20px] bg-gray-200 lg:h-[500px]"></div>}
+            >
+              <ProductImages params={params} />
+            </Suspense>
           </div>
-          <div className="col-span-1 mt-5 lg:mt-0">
-            <h2 className="mb-3 font-integral-bold text-2xl leading-[1.17] lg:mb-3.5 lg:text-[2.5rem]">
-              {product.name}
-            </h2>
-            {!isNaN(Number(product.average_rating)) && Number(product.average_rating) > 0 ? (
-              <div className="mb-3 flex items-center gap-x-3.5 lg:mb-3.5">
-                <Rating
-                  fullStarClassName={'lg:w-6 lg:h-6 w-4 h-4'}
-                  halfStarClassName={'lg:w-[11px] lg:h-[22px] w-2 h-4'}
-                  averageRating={isNaN(Number(product.average_rating)) ? 0 : Number(product.average_rating)}
-                />
-                <p className="mt-0.5 font-satoshi text-sm text-black">
-                  <span>{Number(product.average_rating)}/</span>
-                  <span className="text-black/60">5</span>
-                </p>
-              </div>
-            ) : null}
-            <div className="mb-3 flex items-center gap-x-3">
-              <p
-                className="flex items-center gap-x-2.5 font-satoshi-bold text-2xl leading-none lg:text-[2rem] [&_del]:order-2 [&_del]:text-black/40 [&_ins]:order-1 [&_ins]:text-black [&_ins]:no-underline"
-                dangerouslySetInnerHTML={{ __html: product.price_html }}
-              ></p>
-              {['external', 'simple'].includes(product.type) &&
-                (product.on_sale ? (
-                  <span className="rounded-full bg-[rgba(255,51,51,.10)] px-3 py-1.5 font-satoshi-medium text-sm text-[#FF3333] lg:px-3.5 lg:text-base">
-                    -{calculateDiscountPercentage(product.prices)}%
-                  </span>
-                ) : null)}
-            </div>
-            <div
-              dangerouslySetInnerHTML={{ __html: product.short_description }}
-              className="mb-6 [&_p]:font-satoshi [&_p]:text-sm [&_p]:leading-[1.43] [&_p]:text-black/60 [&_p]:lg:text-base [&_p]:lg:leading-[1.38]"
-            />
-            <div className="flex gap-x-3 border-t border-black/10 pt-6 lg:gap-x-5">
-              <AddToCart product={product} />
-            </div>
-          </div>
-        </div>
 
-        <div className="mb-[50px] lg:mb-20">
-          <SingleProductTabs
-            session={session}
-            settingsResult={
-              settingsResponse.ok ? ((await settingsResponse.json()) as { id: string; value: string }[]) : undefined
-            }
-            product={product}
-          />
+          <div className="col-span-1 mt-5 lg:mt-0">
+            <Suspense fallback={<div className="mb-3 h-12 w-full animate-pulse rounded bg-gray-200"></div>}>
+              <ProductTitle params={params} />
+            </Suspense>
+            <Suspense fallback={<div className="mb-3 h-6 w-full animate-pulse rounded bg-gray-200"></div>}>
+              <ProductRating params={params} />
+            </Suspense>
+            <Suspense fallback={<div className="mb-3 h-11 w-full animate-pulse rounded bg-gray-200"></div>}>
+              <ProductOnSale params={params} />
+            </Suspense>
+            <Suspense
+              fallback={
+                <Fragment>
+                  <div className="mb-6 h-8 w-full animate-pulse rounded bg-gray-200"></div>
+                  <div className="my-6 h-[1px] w-full border border-black/10"></div>
+                </Fragment>
+              }
+            >
+              <ProductShortDescription params={params} />
+            </Suspense>
+            <Suspense
+              fallback={
+                <Fragment>
+                  <div className="mb-3 h-12 w-full animate-pulse rounded bg-gray-200"></div>
+                  <div className="mb-3 h-9 w-full animate-pulse rounded bg-gray-200"></div>
+                  <div className="mb-6 h-7 w-full animate-pulse rounded bg-gray-200"></div>
+                  <div className="h-20 w-full animate-pulse rounded-full bg-gray-200"></div>
+                </Fragment>
+              }
+            >
+              <AddToCart params={params} />
+            </Suspense>
+          </div>
         </div>
+        <Suspense fallback={<TabsSkeleton />}>
+          <ProductTabsWrapper params={params} />
+        </Suspense>
 
         <Suspense
           fallback={
@@ -114,7 +83,7 @@ export default async function SingleProductPage({ params }: { params: Params<{ s
             </div>
           }
         >
-          <RelatedProducts ids={product.extensions['headless-helper-custom-product-data'].related_ids} />
+          <RelatedProducts params={params} />
         </Suspense>
       </div>
     </main>

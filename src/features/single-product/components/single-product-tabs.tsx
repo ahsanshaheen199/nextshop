@@ -1,13 +1,13 @@
 'use client';
 
 import * as Tabs from '@radix-ui/react-tabs';
-import { Product } from '@/features/product/types';
 import { Suspense, useMemo } from 'react';
 import { ProductReviews } from '@/features/single-product/components/product-reviews';
 import { ProductReviewsSkeleton } from '@/features/single-product/components/product-reviews-skeleton';
+import { ProductResponseItem } from '@/types/product-response';
 
 type Props = {
-  product: Product;
+  product: ProductResponseItem;
   session: string | null;
   settingsResult:
     | {

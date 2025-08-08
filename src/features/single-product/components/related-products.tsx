@@ -1,12 +1,17 @@
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
 import { ProductResponseItem } from '@/types/product-response';
 import { ProductsCarousel } from '@/features/single-product/components/products-carousel';
+import { getProduct } from '../api';
 
 type Props = {
-  ids: number[];
+  params: Promise<{ slug: string }>;
 };
 
-export async function RelatedProducts({ ids }: Props) {
+export async function RelatedProducts({ params }: Props) {
+  const { slug } = await params;
+  const product = await getProduct(slug);
+  const ids = product.extensions['headless-helper-custom-product-data'].related_ids;
+
   if (ids.length === 0) {
     return null;
   }
