@@ -16,7 +16,7 @@ type Props = {
 
 export async function Orders({ searchParamsValue }: Props) {
   const session = await verifySession();
-  const decodedSession = jwtDecode(session) as { data: { user: { id: number } } };
+  const decodedSession = jwtDecode(session as string) as { data: { user: { id: number } } };
 
   const searchParams = await searchParamsValue;
 

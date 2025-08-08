@@ -8,7 +8,7 @@ import { isEmpty } from '@/utlis';
 
 export async function BillingAddressCard() {
   const session = await verifySession();
-  const decodedSession = jwtDecode(session) as { data: { user: { id: number } } };
+  const decodedSession = jwtDecode(session as string) as { data: { user: { id: number } } };
   const user = await getCustomer(decodedSession.data.user.id);
 
   // Check if user has essential billing address fields filled

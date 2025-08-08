@@ -7,7 +7,7 @@ import { DownloadItemButton } from './download-item-button';
 
 export async function Downloads() {
   const session = await verifySession();
-  const decodedSession = jwtDecode(session) as { data: { user: { id: number } } };
+  const decodedSession = jwtDecode(session as string) as { data: { user: { id: number } } };
 
   const downloads = await getDownloads(decodedSession.data.user.id);
 

@@ -4,7 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 
 export async function User() {
   const session = await verifySession();
-  const decodedSession = jwtDecode(session) as { data: { user: { id: number } } };
+  const decodedSession = jwtDecode(session as string) as { data: { user: { id: number } } };
   const user = await getCustomerDetails(decodedSession.data.user.id);
 
   return (

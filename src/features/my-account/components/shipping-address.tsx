@@ -6,7 +6,7 @@ import { Customer } from '@/types/user';
 
 export async function ShippingAddress() {
   const session = await verifySession();
-  const decodedSession = jwtDecode(session) as { data: { user: { id: number } } };
+  const decodedSession = jwtDecode(session as string) as { data: { user: { id: number } } };
   const customer = await getCustomer(decodedSession.data.user.id);
 
   return <ShippingAddressForm customer={customer as Customer} />;

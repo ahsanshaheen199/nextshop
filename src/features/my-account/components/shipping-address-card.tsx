@@ -7,7 +7,7 @@ import { getCountryName } from '@/utlis/countries';
 
 export async function ShippingAddressCard() {
   const session = await verifySession();
-  const decodedSession = jwtDecode(session) as { data: { user: { id: number } } };
+  const decodedSession = jwtDecode(session as string) as { data: { user: { id: number } } };
   const user = await getCustomer(decodedSession.data.user.id);
 
   //check if user has  shipping all properties are not empty
