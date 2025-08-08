@@ -5,6 +5,7 @@ import { useActionState, useState } from 'react';
 import { Product } from '@/features/product/types';
 import { useCart } from '@/providers/cart-provider';
 import { addToCart } from '@/features/cart/actions';
+import { Button } from '@/components/form/button';
 
 type Props = {
   product: Product;
@@ -41,18 +42,19 @@ export function AddToCart({ product }: Props) {
       {product.type === 'simple' ? (
         <form
           className="flex-1"
-          action={() => {
+          action={async () => {
             addCartItem(product.id.toString(), quantity);
-            addItemAction();
+            await addItemAction();
           }}
         >
-          <button
+          <Button
+            isLoading={isPending}
             disabled={isPending}
             type="submit"
             className="w-full cursor-pointer rounded-[62px] bg-black py-3 text-white disabled:cursor-not-allowed disabled:bg-black/70 lg:py-4"
           >
             Add to cart
-          </button>
+          </Button>
           <p aria-live="polite" className="sr-only" role="status">
             {state?.success || state?.error}
           </p>

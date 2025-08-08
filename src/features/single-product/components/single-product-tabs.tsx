@@ -4,9 +4,11 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { Product } from '@/features/product/types';
 import { Suspense, useMemo } from 'react';
 import { ProductReviews } from '@/features/single-product/components/product-reviews';
+import { ProductReviewsSkeleton } from '@/features/single-product/components/product-reviews-skeleton';
 
 type Props = {
   product: Product;
+  session: string | null;
   settingsResult:
     | {
         id: string;
@@ -15,7 +17,7 @@ type Props = {
     | undefined;
 };
 
-export function SingleProductTabs({ product, settingsResult }: Props) {
+export function SingleProductTabs({ product, settingsResult, session }: Props) {
   const showAdditionalTab = useMemo(() => {
     return !(
       product.extensions['headless-helper-custom-product-data'].dimensions.length === '' &&
@@ -151,8 +153,8 @@ export function SingleProductTabs({ product, settingsResult }: Props) {
 
       {!!(settings?.isReviewEnabled && settings.isReviewEnabled.value === 'yes') && (
         <Tabs.Content value="review">
-          <Suspense fallback={'loading....'}>
-            <ProductReviews product={product} />
+          <Suspense fallback={<ProductReviewsSkeleton />}>
+            <ProductReviews product={product} session={session} />
           </Suspense>
         </Tabs.Content>
       )}

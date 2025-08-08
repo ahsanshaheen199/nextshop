@@ -12,9 +12,11 @@ import { ProductSkeleton } from '@/components/skeleton/product-skeleton';
 import { ProductGallery } from '@/features/single-product/components/product-gallery';
 import Image from 'next/image';
 import { AddToCart } from '@/features/single-product/components/add-to-cart';
+import { verifySession } from '@/dal/session';
 
-export default async function ProductName({ params }: { params: Params<{ slug: string }> }) {
+export default async function SingleProductPage({ params }: { params: Params<{ slug: string }> }) {
   const { slug } = await params;
+  const session = await verifySession();
 
   const response = await apiFetchWithoutAuth(`/wc/store/v1/products/${slug}`);
   if (!response.ok) {
@@ -94,6 +96,7 @@ export default async function ProductName({ params }: { params: Params<{ slug: s
 
         <div className="mb-[50px] lg:mb-20">
           <SingleProductTabs
+            session={session}
             settingsResult={
               settingsResponse.ok ? ((await settingsResponse.json()) as { id: string; value: string }[]) : undefined
             }
