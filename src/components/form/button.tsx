@@ -1,10 +1,30 @@
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   isLoading?: boolean;
+  isLink?: boolean;
+  href?: string;
+  onNavigate?: () => void;
 };
 
-export function Button({ className, children, isLoading, ...rest }: ButtonProps) {
+export function Button({ className, children, isLoading, isLink, href, onNavigate, ...rest }: ButtonProps) {
+  if (isLink) {
+    return (
+      <Link
+        className={twMerge(
+          twMerge(
+            'inline-flex cursor-pointer items-center justify-center rounded-full bg-black px-7 py-3 font-satoshi-medium text-sm text-white hover:bg-black/80 disabled:opacity-50 lg:px-10 lg:text-base',
+            className
+          )
+        )}
+        href={href as string}
+        onNavigate={onNavigate}
+      >
+        {children}
+      </Link>
+    );
+  }
   return (
     <button
       {...rest}
