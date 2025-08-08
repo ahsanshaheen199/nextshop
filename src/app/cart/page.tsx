@@ -82,7 +82,7 @@ export default function CartPage() {
                           <div className="flex flex-col gap-y-3">
                             <div className="flex justify-between gap-x-6">
                               <p className="font-satoshi-bold text-base font-bold text-black lg:text-xl">
-                                <Link href={`/product/${item.id}`}>{item.name}</Link>
+                                <Link href={`/products/${item.id}`}>{item.name}</Link>
                               </p>
                               <CartRemoveBtn itemKey={item.key} />
                             </div>
@@ -91,7 +91,7 @@ export default function CartPage() {
                                 {formatPrice(item.prices.sale_price, item.prices)}
                               </p>
                               <CartQuantityControl
-                                inputClassName="px-4"
+                                inputClassName="px-4 py-0"
                                 className="min-w-[100px] px-3.5 py-2 lg:min-w-32 lg:px-5 lg:py-3"
                                 item={item}
                               />

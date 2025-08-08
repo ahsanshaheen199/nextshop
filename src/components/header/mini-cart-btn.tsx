@@ -115,7 +115,9 @@ export const MiniCartBtn = () => {
                                 <div className="flex flex-col gap-y-3">
                                   <div className="flex justify-between gap-x-3">
                                     <p className="font-satoshi-bold text-base">
-                                      <Link href={`/product/${item.id}`}>{item.name}</Link>
+                                      <Link onNavigate={() => setIsOpen(false)} href={`/products/${item.id}`}>
+                                        {item.name}
+                                      </Link>
                                     </p>
                                     <CartRemoveBtn itemKey={item.key} />
                                   </div>
