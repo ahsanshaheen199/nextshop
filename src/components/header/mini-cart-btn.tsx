@@ -10,11 +10,14 @@ import { ShippingCartIcon } from '../icons/shipping-cart';
 import Image from 'next/image';
 import { formatPrice } from '@/utlis';
 import { CartQuantityControl } from '../cart-quantity-control';
+import { CartRemoveBtn } from '@/features/cart/components/cart-remove-btn';
+import { usePathname } from 'next/navigation';
 
 export const MiniCartBtn = () => {
   const { cart } = useCart();
   const [isOpen, setIsOpen] = useState(false);
   const quantityRef = useRef(cart?.items_count);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (!cart) {
@@ -23,19 +26,29 @@ export const MiniCartBtn = () => {
   }, [cart]);
 
   useEffect(() => {
-    if (cart?.items_count && cart?.items_count !== quantityRef.current && cart?.items_count > 0) {
+    if (
+      cart?.items_count &&
+      cart?.items_count !== quantityRef.current &&
+      cart?.items_count > 0 &&
+      pathname !== '/cart'
+    ) {
       if (!isOpen) {
         setIsOpen(true);
       }
-      quantityRef.current = cart?.items_count;
     }
+    quantityRef.current = cart?.items_count;
   }, [isOpen, cart?.items_count, quantityRef]);
-
-  console.log(cart);
 
   return (
     <div>
-      <button onClick={() => setIsOpen(true)} className="relative cursor-pointer">
+      <button
+        onClick={() => {
+          if (pathname !== '/cart' && pathname !== '/checkout') {
+            setIsOpen(true);
+          }
+        }}
+        className="relative cursor-pointer"
+      >
         <CartIcon />
         <span className="absolute -top-2.5 -right-2.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-black text-sm text-white">
           {cart?.items_count || 0}
@@ -80,33 +93,36 @@ export const MiniCartBtn = () => {
               ) : (
                 <div className="flex h-full flex-col justify-between overflow-hidden">
                   <ul className="grow overflow-auto py-4">
-                    {cart.items.map((item) => (
-                      <li className="w-full border-b border-black/10 py-4" key={item.id}>
-                        <div className="flex gap-x-3.5">
-                          <div className="relative h-[100px] w-[100px] flex-none rounded-lg border border-black/10">
-                            <Image
-                              src={item.images[0].thumbnail}
-                              alt={item.name}
-                              fill
-                              className="h-full w-full rounded-lg object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex flex-col gap-y-3">
-                              <div>
-                                <p className="font-satoshi-bold text-base">{item.name}</p>
-                              </div>
-                              <div className="flex items-center justify-between">
-                                <p className="font-satoshi-bold text-xl leading-none text-black">
-                                  {formatPrice(item.prices.sale_price, item.prices)}
-                                </p>
-                                <CartQuantityControl item={item} />
+                    {cart.items.map((item) => {
+                      return (
+                        <li className="relative w-full border-b border-black/10 py-4" key={item.id}>
+                          <div className="flex gap-x-3.5">
+                            <div className="relative h-[100px] w-[100px] flex-none rounded-lg border border-black/10">
+                              <Image
+                                src={item.images[0].thumbnail}
+                                alt={item.name}
+                                fill
+                                className="h-full w-full rounded-lg object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex flex-col gap-y-3">
+                                <div className="pr-6">
+                                  <p className="font-satoshi-bold text-base">{item.name}</p>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="font-satoshi-bold text-xl leading-none text-black">
+                                    {formatPrice(item.prices.sale_price, item.prices)}
+                                  </p>
+                                  <CartQuantityControl item={item} />
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </li>
-                    ))}
+                          <CartRemoveBtn itemKey={item.key} />
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               )}

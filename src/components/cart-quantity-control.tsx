@@ -8,9 +8,10 @@ type Props = {
   item: CartResponseItem;
   className?: string;
   iconClassName?: string;
+  inputClassName?: string;
 };
 
-export function CartQuantityControl({ item, className, iconClassName = 'h-4 w-4' }: Props) {
+export function CartQuantityControl({ item, className, iconClassName = 'h-4 w-4', inputClassName }: Props) {
   return (
     <div
       className={twMerge(
@@ -30,7 +31,10 @@ export function CartQuantityControl({ item, className, iconClassName = 'h-4 w-4'
       <input
         type="number"
         value={item.quantity}
-        className="w-full grow-1 border-0 px-2 text-center font-satoshi-medium text-base text-black shadow-none focus:border-0 focus:outline-none"
+        className={twMerge(
+          'w-full grow-1 border-0 bg-transparent px-2 text-center font-satoshi-medium text-base text-black shadow-none focus:border-0 focus:outline-none',
+          inputClassName
+        )}
         min="1"
         step={1}
         disabled

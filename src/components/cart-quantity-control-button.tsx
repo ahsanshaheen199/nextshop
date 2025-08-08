@@ -3,6 +3,7 @@ import { useCart } from '@/providers/cart-provider';
 import { CartResponseItem } from '@/types/cart-response';
 import { useActionState, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { toast } from './toast';
 
 type Props = {
   type: 'plus' | 'minus';
@@ -15,7 +16,6 @@ type Props = {
 export function CartQuantityControlButton({ type, item, children, className, disabled }: Props) {
   const { updateCartItem } = useCart();
   const [state, action] = useActionState(updateCart, null);
-  // const toast = useToast();
   const updateItemInCart = action.bind(null, {
     key: item.key,
     quantity: type === 'plus' ? item.quantity + 1 : item.quantity - 1,
@@ -23,13 +23,17 @@ export function CartQuantityControlButton({ type, item, children, className, dis
 
   useEffect(() => {
     if (state?.error) {
-      console.log(state);
+      toast({
+        title: 'Error',
+        description: state.error,
+        type: 'error',
+      });
     }
   }, [state]);
   return (
     <form
       action={async () => {
-        updateCartItem(item.id.toString(), type === 'plus' ? item.quantity + 1 : item.quantity - 1);
+        updateCartItem(item.key.toString(), type === 'plus' ? item.quantity + 1 : item.quantity - 1);
         await updateItemInCart();
       }}
       className="flex items-center"

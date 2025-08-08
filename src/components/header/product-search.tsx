@@ -80,7 +80,7 @@ export function ProductSearch() {
             setIsOpen(e.target.value.length > 0);
             setHighlightedIndex(-1);
           }}
-          className="w-full rounded-full bg-[#F0F0F0] py-3 pr-4 pl-12 text-sm text-black outline-none placeholder:text-black/40 lg:pl-[52px] lg:text-base"
+          className="w-full rounded-full border-0 bg-[#F0F0F0] py-3 pr-4 pl-12 text-sm text-black shadow-none ring-0 outline-none placeholder:text-black/40 focus:ring-2 focus:ring-black lg:pl-[52px] lg:text-base"
           type="text"
           placeholder="Search your products..."
           onKeyDown={handleHighlightedIndex}

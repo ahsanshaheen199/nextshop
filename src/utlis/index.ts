@@ -1,6 +1,15 @@
 import { Product } from '@/features/product/types';
 
-export function formatPrice(amount: string, currencySettings: Product['prices']) {
+export function formatPrice(
+  amount: string,
+  currencySettings: {
+    currency_minor_unit: number;
+    currency_decimal_separator: string;
+    currency_thousand_separator: string;
+    currency_prefix: string;
+    currency_suffix: string;
+  }
+) {
   const {
     currency_minor_unit,
     currency_decimal_separator,

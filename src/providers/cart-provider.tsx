@@ -20,7 +20,7 @@ type CartContextType = {
 type CartAction =
   | {
       type: 'UPDATE_ITEM';
-      payload: { productId: string; quantity: number; variation?: { attribute: string; value: string }[] };
+      payload: { key: string; quantity: number };
     }
   | {
       type: 'ADD_ITEM';
@@ -33,7 +33,7 @@ type CartAction =
     }
   | {
       type: 'REMOVE_ITEM';
-      payload: { productId: string; variation?: { attribute: string; value: string }[] };
+      payload: { key: string };
     };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -263,41 +263,20 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
     }
 
     case 'UPDATE_ITEM': {
-      const { productId, quantity, variation } = action.payload;
+      const { key, quantity } = action.payload;
 
-      // Filter out items if quantity is 0 or less, otherwise update the item
-      const updatedItems =
-        quantity <= 0
-          ? currentCart.items.filter(
-              (_, index) => index !== findCartItemIndex(currentCart.items, parseInt(productId, 10), variation)
-            )
-          : currentCart.items.map((item, index) => {
-              const targetIndex = findCartItemIndex(currentCart.items, parseInt(productId, 10), variation);
-              if (index === targetIndex) {
-                const unitPrice = parseFloat(item.prices.sale_price || item.prices.price || '0');
-                const lineTotal = unitPrice * quantity;
-
-                return {
-                  ...item,
-                  quantity,
-                  totals: {
-                    ...item.totals,
-                    line_total: lineTotal.toString(),
-                    line_subtotal: lineTotal.toString(),
-                  },
-                  prices: {
-                    ...item.prices,
-                    price: item.prices.price,
-                    sale_price: item.prices.sale_price,
-                    regular_price: item.prices.regular_price,
-                  },
-                };
-              }
-              return item;
-            });
+      const updatedItems = currentCart.items.map((item) => {
+        if (item.key === key) {
+          return { ...item, quantity };
+        }
+        return item;
+      });
 
       // Calculate new totals
-      const newTotalPrice = updatedItems.reduce((total, item) => total + parseFloat(item.totals.line_total || '0'), 0);
+      const newTotalPrice = updatedItems.reduce(
+        (total, item) => total + parseFloat(item.prices.sale_price || '0') * item.quantity,
+        0
+      );
       const newItemsCount = updatedItems.reduce((total, item) => total + item.quantity, 0);
 
       return {
@@ -313,11 +292,9 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
     }
 
     case 'REMOVE_ITEM': {
-      const { productId, variation } = action.payload;
+      const { key } = action.payload;
 
-      const updatedItems = currentCart.items.filter(
-        (_, index) => index !== findCartItemIndex(currentCart.items, parseInt(productId, 10), variation)
-      );
+      const updatedItems = currentCart.items.filter((item) => item.key !== key);
 
       // Calculate new totals
       const newTotalPrice = updatedItems.reduce((total, item) => total + parseFloat(item.totals.line_total || '0'), 0);
@@ -359,12 +336,12 @@ export function CartProvider({
     updateOptimisticCart({ type: 'ADD_ITEM', payload: { productId, quantity, variation, product } });
   };
 
-  const updateCartItem = (productId: string, quantity: number, variation?: { attribute: string; value: string }[]) => {
-    updateOptimisticCart({ type: 'UPDATE_ITEM', payload: { productId, quantity, variation } });
+  const updateCartItem = (key: string, quantity: number) => {
+    updateOptimisticCart({ type: 'UPDATE_ITEM', payload: { key, quantity } });
   };
 
-  const removeCartItem = (productId: string, variation?: { attribute: string; value: string }[]) => {
-    updateOptimisticCart({ type: 'REMOVE_ITEM', payload: { productId, variation } });
+  const removeCartItem = (key: string) => {
+    updateOptimisticCart({ type: 'REMOVE_ITEM', payload: { key } });
   };
 
   return (
