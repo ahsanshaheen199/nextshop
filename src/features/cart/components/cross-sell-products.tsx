@@ -14,6 +14,9 @@ export function CrossSellProducts({ products }: { products: Cart['crossSells'] }
   );
 
   useEffect(() => {
+    if (products.length <= 4) {
+      return;
+    }
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;
     autoplay.play();

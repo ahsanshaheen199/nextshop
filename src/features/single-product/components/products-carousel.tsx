@@ -16,6 +16,9 @@ export function ProductsCarousel({ products }: { products: ProductResponseItem[]
   );
 
   useEffect(() => {
+    if (products.length <= 4) {
+      return;
+    }
     const autoplay = emblaApi?.plugins()?.autoplay;
     if (!autoplay) return;
     autoplay.play();
