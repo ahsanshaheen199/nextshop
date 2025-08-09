@@ -76,3 +76,14 @@ export async function getNewArrivalsProducts() {
   const products = (await response.json()) as ProductResponseItem[];
   return products;
 }
+
+export async function getGroupedProducts(productIds: number[]) {
+  const response = await apiFetchWithoutAuth(`/wc/store/v1/products?include=${productIds.join(',')}`);
+
+  if (!response.ok) {
+    return [] as ProductResponseItem[];
+  }
+
+  const products = (await response.json()) as ProductResponseItem[];
+  return products;
+}

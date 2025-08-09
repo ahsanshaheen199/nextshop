@@ -1,11 +1,12 @@
 'use client';
 
 import { Quantity } from '@/components/quantity';
-import { Fragment, useActionState, useState } from 'react';
+import { Fragment, useActionState, useEffect, useState } from 'react';
 import { useCart } from '@/providers/cart-provider';
 import { addToCart } from '@/features/cart/actions';
 import { Button } from '@/components/form/button';
 import { ProductResponseItem } from '@/types/product-response';
+import { toast } from '@/components/toast';
 
 type Props = {
   product: ProductResponseItem;
@@ -20,6 +21,16 @@ export function SimpleProductAddToCart({ product }: Props) {
   if (product.is_in_stock === false) {
     return <p className="pt-6 text-left text-base text-red-500">Product is out of stock</p>;
   }
+
+  useEffect(() => {
+    if (state?.error) {
+      toast({
+        title: 'Error',
+        description: state.error,
+        type: 'error',
+      });
+    }
+  }, [state]);
 
   return (
     <Fragment>
@@ -65,9 +76,6 @@ export function SimpleProductAddToCart({ product }: Props) {
           >
             Add to cart
           </Button>
-          <p aria-live="polite" className="sr-only" role="status">
-            {state?.success || state?.error}
-          </p>
         </form>
       </div>
       <div className="pt-6">

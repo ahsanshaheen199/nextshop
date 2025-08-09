@@ -1,6 +1,9 @@
 import { getProduct } from '../api';
 import { SimpleProductAddToCart } from './simple-product-add-to-cart';
 import { ExternalProductAddToCart } from './external-product-add-to-cart';
+import { GroupedProductAddToCart } from './grouped-product-add-to-cart';
+import { Suspense } from 'react';
+import { GroupedAddToCartSkeleton } from './grouped-add-to-cart-skeleton';
 
 export async function AddToCart({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -12,6 +15,14 @@ export async function AddToCart({ params }: { params: Promise<{ slug: string }> 
 
   if (product.type === 'external') {
     return <ExternalProductAddToCart product={product} />;
+  }
+
+  if (product.type === 'grouped') {
+    return (
+      <Suspense fallback={<GroupedAddToCartSkeleton />}>
+        <GroupedProductAddToCart product={product} />
+      </Suspense>
+    );
   }
 
   return <div>AddToCart</div>;

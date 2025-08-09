@@ -5,9 +5,13 @@ import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
 export async function createCartAndSetCookie() {
-  const cart = await createCart();
-  if (cart) {
-    (await cookies()).set('cartToken', cart);
+  const { cartToken, nonce } = await createCart();
+  if (cartToken) {
+    (await cookies()).set('cartToken', cartToken);
+  }
+
+  if (nonce) {
+    (await cookies()).set('nonce', nonce);
   }
 }
 
@@ -21,11 +25,9 @@ export async function createCart() {
   });
 
   const cartToken = res.headers.get('CART-TOKEN');
-  if (cartToken) {
-    return cartToken;
-  }
+  const nonce = res.headers.get('Nonce');
 
-  return undefined;
+  return { cartToken: cartToken || undefined, nonce: nonce || undefined };
 }
 
 export async function addToCart(prevState: unknown, payload: { productId: string; quantity: number }) {
@@ -48,6 +50,7 @@ export async function addToCart(prevState: unknown, payload: { productId: string
     revalidateTag('getCart');
 
     (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+    (await cookies()).set('nonce', res.headers.get('Nonce') || '');
 
     return { success: 'Item added to cart' };
   }
@@ -77,6 +80,7 @@ export async function updateCart(prevState: unknown, payload: { key: string; qua
     revalidateTag('getCart');
 
     (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+    (await cookies()).set('nonce', res.headers.get('Nonce') || '');
 
     return { success: 'Item updated in cart' };
   }
@@ -105,6 +109,7 @@ export async function removeItemFromCart(prevState: unknown, payload: { key: str
     revalidateTag('getCart');
 
     (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+    (await cookies()).set('nonce', res.headers.get('Nonce') || '');
 
     return { success: 'Item removed from cart' };
   }
@@ -134,6 +139,7 @@ export async function applyCoupon(prevState: unknown, formData: FormData) {
     revalidateTag('getCart');
 
     (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+    (await cookies()).set('nonce', res.headers.get('Nonce') || '');
 
     return { success: 'Coupon applied' };
   }
@@ -163,6 +169,7 @@ export async function removeCoupon(prevState: unknown, formData: FormData) {
     revalidateTag('getCart');
 
     (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+    (await cookies()).set('nonce', res.headers.get('Nonce') || '');
 
     return { success: 'Coupon removed' };
   }
@@ -189,8 +196,74 @@ export async function updateShippingRate(payload: { package_id: number; rate_id:
     revalidateTag('getCart');
 
     (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+    (await cookies()).set('nonce', res.headers.get('Nonce') || '');
 
     return { success: 'Shipping rate updated' };
+  }
+
+  const result = await res.json();
+
+  return { error: result.message };
+}
+
+export async function addGroupedProductsToCart(prevState: unknown, payload: { id: number; quantity: number }[]) {
+  const cartToken = (await cookies()).get('cartToken')?.value;
+  const nonce = (await cookies()).get('nonce')?.value;
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/batch`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'CART-TOKEN': cartToken || '',
+    },
+    body: JSON.stringify({
+      requests: payload.map((item) => ({
+        path: '/wc/store/v1/cart/add-item',
+        method: 'POST',
+        body: {
+          id: item.id,
+          quantity: item.quantity,
+        },
+        cache: 'no-store',
+        headers: {
+          Nonce: nonce || '',
+          'CART-TOKEN': cartToken || '',
+        },
+      })),
+    }),
+  });
+
+  if (res.ok) {
+    revalidateTag('getCart');
+
+    const result = await res.json();
+
+    let cartTokenFromBatch: string | undefined;
+    let nonceFromBatch: string | undefined;
+
+    for (const r of result.responses ?? []) {
+      const raw = r.headers ?? {};
+      const headers = Object.fromEntries(
+        Object.entries(raw).map(([k, v]) => [k.toLowerCase(), Array.isArray(v) ? v[0] : v])
+      );
+
+      if (!cartTokenFromBatch && headers['cart-token']) {
+        cartTokenFromBatch = headers['cart-token'];
+      }
+      if (!nonceFromBatch && headers['nonce']) {
+        nonceFromBatch = headers['nonce'];
+      }
+    }
+
+    // Update cookies if present
+    if (cartTokenFromBatch) {
+      (await cookies()).set('cartToken', cartTokenFromBatch);
+    }
+    if (nonceFromBatch) {
+      (await cookies()).set('nonce', nonceFromBatch);
+    }
+
+    return { success: 'Grouped products added to cart' };
   }
 
   const result = await res.json();
