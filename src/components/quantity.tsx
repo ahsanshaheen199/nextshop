@@ -37,7 +37,7 @@ export function Quantity({
       <input
         type="number"
         value={value}
-        className="w-full grow-1 border-0 bg-transparent px-2 py-0 text-center font-satoshi-medium text-base font-medium text-black shadow-none focus:border-0 focus:outline-none"
+        className="w-full grow-1 border-0 bg-transparent px-2 py-0 text-center font-satoshi-medium text-base font-medium text-black shadow-none ring-0 focus:border-0 focus:outline-none"
         min="1"
         step={1}
         onChange={(event) => onValueChange(event.target.valueAsNumber)}

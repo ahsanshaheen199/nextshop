@@ -1,5 +1,6 @@
 'use server';
 
+import { apiFetchWithoutAuth } from '@/lib/app-fetch';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
@@ -11,7 +12,7 @@ export async function createCartAndSetCookie() {
 }
 
 export async function createCart() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart`, {
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +31,7 @@ export async function createCart() {
 export async function addToCart(prevState: unknown, payload: { productId: string; quantity: number }) {
   const cartToken = (await cookies()).get('cartToken')?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart/add-item`, {
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/add-item`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -51,13 +52,15 @@ export async function addToCart(prevState: unknown, payload: { productId: string
     return { success: 'Item added to cart' };
   }
 
-  return { error: 'Failed to add item to cart' };
+  const result = await res.json();
+
+  return { error: result.message };
 }
 
 export async function updateCart(prevState: unknown, payload: { key: string; quantity: number }) {
   const cartToken = (await cookies()).get('cartToken')?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart/update-item`, {
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/update-item`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -86,7 +89,7 @@ export async function updateCart(prevState: unknown, payload: { key: string; qua
 export async function removeItemFromCart(prevState: unknown, payload: { key: string }) {
   const cartToken = (await cookies()).get('cartToken')?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart/remove-item`, {
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/remove-item`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -106,14 +109,16 @@ export async function removeItemFromCart(prevState: unknown, payload: { key: str
     return { success: 'Item removed from cart' };
   }
 
-  return { error: 'Failed to remove item from cart' };
+  const result = await res.json();
+
+  return { error: result.message };
 }
 
 export async function applyCoupon(prevState: unknown, formData: FormData) {
   const cartToken = (await cookies()).get('cartToken')?.value;
   const coupon = formData.has('coupon') ? formData.get('coupon')?.toString() : '';
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart/apply-coupon`, {
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/apply-coupon`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -142,7 +147,7 @@ export async function removeCoupon(prevState: unknown, formData: FormData) {
   const cartToken = (await cookies()).get('cartToken')?.value;
   const coupon = formData.has('code') ? formData.get('code')?.toString() : '';
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart/remove-coupon`, {
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/remove-coupon`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -170,18 +175,15 @@ export async function removeCoupon(prevState: unknown, formData: FormData) {
 export async function updateShippingRate(payload: { package_id: number; rate_id: string }) {
   const cartToken = (await cookies()).get('cartToken')?.value;
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/wp-json/wc/store/v1/cart/select-shipping-rate`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'CART-TOKEN': cartToken || '',
-      },
-      body: JSON.stringify(payload),
-    }
-  );
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/select-shipping-rate`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'CART-TOKEN': cartToken || '',
+    },
+    body: JSON.stringify(payload),
+  });
 
   if (res.ok) {
     revalidateTag('getCart');
@@ -192,8 +194,6 @@ export async function updateShippingRate(payload: { package_id: number; rate_id:
   }
 
   const result = await res.json();
-
-  console.log(result);
 
   return { error: result.message };
 }
