@@ -80,12 +80,27 @@ export default function CartPage() {
                         </div>
                         <div className="flex-1">
                           <div className="flex flex-col gap-y-3">
-                            <div className="flex justify-between gap-x-6">
-                              <p className="font-satoshi-bold text-base font-bold text-black lg:text-xl">
-                                <Link href={`/products/${item.id}`}>{item.name}</Link>
-                              </p>
-                              <CartRemoveBtn itemKey={item.key} />
+                            <div>
+                              <div className="flex justify-between gap-x-6">
+                                <p className="font-satoshi-bold text-base font-bold text-black lg:text-xl">
+                                  <Link href={`/products/${item.id}`}>{item.name}</Link>
+                                </p>
+                                <CartRemoveBtn itemKey={item.key} />
+                              </div>
+                              {item.variation.length > 0 && (
+                                <div className="flex flex-col">
+                                  {item.variation.map((variation, index) => {
+                                    return (
+                                      <p className="text-xs lg:text-sm" key={index}>
+                                        <span className="text-black">{variation.attribute}:</span>{' '}
+                                        <span className="text-black/60">{variation.value}</span>
+                                      </p>
+                                    );
+                                  })}
+                                </div>
+                              )}
                             </div>
+
                             <div className="flex items-center justify-between">
                               <p className="font-satoshi-bold text-xl leading-none font-bold text-black lg:text-2xl">
                                 {formatPrice(item.prices.sale_price, item.prices)}

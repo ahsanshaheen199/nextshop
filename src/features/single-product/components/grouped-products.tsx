@@ -66,60 +66,64 @@ export function GroupedProducts({ products }: Props) {
                           </p>
                         </div>
 
-                        <Quantity
-                          iconClassName="h-4 w-4"
-                          className="max-w-[100px] px-3.5 py-2 lg:min-w-32 lg:px-5 lg:py-3"
-                          value={data[product.id]?.quantity ?? 1}
-                          onValueChange={(value) => {
-                            if (isNaN(value) || value < 1) {
-                              setData((prev) => {
-                                const newData = { ...prev };
-                                newData[product.id] = { product, quantity: 0 };
-                                return newData;
-                              });
-                            } else {
+                        {product.is_in_stock ? (
+                          <Quantity
+                            iconClassName="h-4 w-4"
+                            className="max-w-[100px] px-3.5 py-2 lg:min-w-32 lg:px-5 lg:py-3"
+                            value={data[product.id]?.quantity ?? 1}
+                            onValueChange={(value) => {
+                              if (isNaN(value) || value < 1) {
+                                setData((prev) => {
+                                  const newData = { ...prev };
+                                  newData[product.id] = { product, quantity: 0 };
+                                  return newData;
+                                });
+                              } else {
+                                if (
+                                  typeof product?.low_stock_remaining === 'number' &&
+                                  value > product.low_stock_remaining
+                                ) {
+                                  return;
+                                }
+                                setData((prev) => {
+                                  const newData = { ...prev };
+                                  newData[product.id] = { product, quantity: value };
+                                  return newData;
+                                });
+                              }
+                            }}
+                            onIncrement={() => {
                               if (
                                 typeof product?.low_stock_remaining === 'number' &&
-                                value > product.low_stock_remaining
+                                data[product.id]?.quantity + 1 > product.low_stock_remaining
                               ) {
                                 return;
                               }
                               setData((prev) => {
                                 const newData = { ...prev };
-                                newData[product.id] = { product, quantity: value };
+                                newData[product.id] = { product, quantity: data[product.id]?.quantity + 1 };
                                 return newData;
                               });
-                            }
-                          }}
-                          onIncrement={() => {
-                            if (
-                              typeof product?.low_stock_remaining === 'number' &&
-                              data[product.id]?.quantity + 1 > product.low_stock_remaining
-                            ) {
-                              return;
-                            }
-                            setData((prev) => {
-                              const newData = { ...prev };
-                              newData[product.id] = { product, quantity: data[product.id]?.quantity + 1 };
-                              return newData;
-                            });
-                          }}
-                          onDecrement={() => {
-                            if (data[product.id]?.quantity > 1) {
-                              setData((prev) => {
-                                const newData = { ...prev };
-                                newData[product.id] = { product, quantity: data[product.id]?.quantity - 1 };
-                                return newData;
-                              });
-                            } else {
-                              setData((prev) => {
-                                const newData = { ...prev };
-                                newData[product.id] = { product, quantity: 1 };
-                                return newData;
-                              });
-                            }
-                          }}
-                        />
+                            }}
+                            onDecrement={() => {
+                              if (data[product.id]?.quantity > 1) {
+                                setData((prev) => {
+                                  const newData = { ...prev };
+                                  newData[product.id] = { product, quantity: data[product.id]?.quantity - 1 };
+                                  return newData;
+                                });
+                              } else {
+                                setData((prev) => {
+                                  const newData = { ...prev };
+                                  newData[product.id] = { product, quantity: 1 };
+                                  return newData;
+                                });
+                              }
+                            }}
+                          />
+                        ) : (
+                          <p className="text-left text-base text-red-500">Out of stock</p>
+                        )}
                       </div>
                     </div>
                   </div>

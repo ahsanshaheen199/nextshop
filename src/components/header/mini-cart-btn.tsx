@@ -113,14 +113,29 @@ export const MiniCartBtn = () => {
                               </div>
                               <div className="flex-1">
                                 <div className="flex flex-col gap-y-3">
-                                  <div className="flex justify-between gap-x-3">
-                                    <p className="font-satoshi-bold text-base">
-                                      <Link onNavigate={() => setIsOpen(false)} href={`/products/${item.id}`}>
-                                        {item.name}
-                                      </Link>
-                                    </p>
-                                    <CartRemoveBtn itemKey={item.key} />
+                                  <div>
+                                    <div className="flex justify-between gap-x-3">
+                                      <p className="font-satoshi-bold text-base">
+                                        <Link onNavigate={() => setIsOpen(false)} href={`/products/${item.id}`}>
+                                          {item.name}
+                                        </Link>
+                                      </p>
+                                      <CartRemoveBtn itemKey={item.key} />
+                                    </div>
+                                    {item.variation.length > 0 && (
+                                      <div className="flex flex-col">
+                                        {item.variation.map((variation, index) => {
+                                          return (
+                                            <p className="text-xs" key={index}>
+                                              <span className="text-black">{variation.attribute}:</span>{' '}
+                                              <span className="text-black/60">{variation.value}</span>
+                                            </p>
+                                          );
+                                        })}
+                                      </div>
+                                    )}
                                   </div>
+
                                   <div className="flex items-center justify-between">
                                     <p className="font-satoshi-bold text-xl leading-none text-black">
                                       {formatPrice(item.prices.sale_price, item.prices)}
