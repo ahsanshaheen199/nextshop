@@ -1,6 +1,7 @@
 'use server';
 
 import { apiFetch } from '@/lib/app-fetch';
+import type { ProductVariation } from '@/types/variation';
 
 export async function createProductReview(
   prevState: unknown,
@@ -27,4 +28,15 @@ export async function createProductReview(
   const result = await res.json();
 
   return { error: result.message };
+}
+
+export async function getVariableProductVariation(productId: number, variationId: number) {
+  const res = await apiFetch(`/wc/v3/products/${productId}/variations/${variationId}`);
+
+  if (!res.ok) {
+    return undefined;
+  }
+
+  const data: ProductVariation = await res.json();
+  return data;
 }

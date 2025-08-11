@@ -138,14 +138,16 @@ export const MiniCartBtn = () => {
 
                                   <div className="flex items-center justify-between">
                                     <p className="font-satoshi-bold text-xl leading-none text-black">
-                                      {formatPrice(item.prices.sale_price, item.prices)}
+                                      {formatPrice(item.prices.price, item.prices)}
                                     </p>
-                                    <CartQuantityControl
-                                      iconClassName="h-4 w-4"
-                                      inputClassName="px-4 py-0 text-sm font-medium"
-                                      className="min-w-[100px] px-3.5 py-2 lg:min-w-32 lg:px-5 lg:py-3"
-                                      item={item}
-                                    />
+                                    {item.quantity_limits.editable && (
+                                      <CartQuantityControl
+                                        iconClassName="h-4 w-4"
+                                        inputClassName="px-4 py-0 text-sm font-medium"
+                                        className="min-w-[100px] px-3.5 py-2 lg:min-w-32 lg:px-5 lg:py-3"
+                                        item={item}
+                                      />
+                                    )}
                                   </div>
                                 </div>
                               </div>

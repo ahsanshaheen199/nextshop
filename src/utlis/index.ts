@@ -8,7 +8,8 @@ export function formatPrice(
     currency_thousand_separator: string;
     currency_prefix: string;
     currency_suffix: string;
-  }
+  },
+  alreadyFormatted = false
 ) {
   const {
     currency_minor_unit,
@@ -21,7 +22,12 @@ export function formatPrice(
   if (isNaN(Number(amount))) return '';
 
   // Convert to proper decimal places
-  const numericAmount = (Number(amount) / Math.pow(10, currency_minor_unit)).toFixed(currency_minor_unit);
+  let numericAmount: string;
+  if (alreadyFormatted) {
+    numericAmount = amount;
+  } else {
+    numericAmount = (Number(amount) / Math.pow(10, currency_minor_unit)).toFixed(currency_minor_unit);
+  }
 
   // Add thousand separators
   const parts = numericAmount.split('.');

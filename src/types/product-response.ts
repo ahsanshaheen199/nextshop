@@ -105,6 +105,7 @@ export interface ProductResponseItem {
       weight_unit: string;
       weight: string;
       reviews_allowed: boolean;
+      upsell_ids: number[];
     };
   };
 }

@@ -30,7 +30,10 @@ export async function createCart() {
   return { cartToken: cartToken || undefined, nonce: nonce || undefined };
 }
 
-export async function addToCart(prevState: unknown, payload: { productId: string; quantity: number }) {
+export async function addToCart(
+  prevState: unknown,
+  payload: { productId: string; quantity: number; variation?: { attribute: string; value: string }[] }
+) {
   const cartToken = (await cookies()).get('cartToken')?.value;
 
   const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/add-item`, {
@@ -43,6 +46,7 @@ export async function addToCart(prevState: unknown, payload: { productId: string
     body: JSON.stringify({
       id: payload.productId,
       quantity: payload.quantity,
+      ...(payload.variation && { variation: payload.variation }),
     }),
   });
 

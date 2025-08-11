@@ -4,6 +4,7 @@ import { ExternalProductAddToCart } from './external-product-add-to-cart';
 import { GroupedProductAddToCart } from './grouped-product-add-to-cart';
 import { Suspense } from 'react';
 import { GroupedAddToCartSkeleton } from './grouped-add-to-cart-skeleton';
+import { VariableProductAddToCart } from './variable-product-add-to-cart';
 
 export async function AddToCart({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -25,5 +26,13 @@ export async function AddToCart({ params }: { params: Promise<{ slug: string }> 
     );
   }
 
-  return <div>AddToCart</div>;
+  if (product.type === 'variable') {
+    return (
+      <Suspense>
+        <VariableProductAddToCart product={product} />
+      </Suspense>
+    );
+  }
+
+  return null;
 }

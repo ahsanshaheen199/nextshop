@@ -103,13 +103,15 @@ export default function CartPage() {
 
                             <div className="flex items-center justify-between">
                               <p className="font-satoshi-bold text-xl leading-none font-bold text-black lg:text-2xl">
-                                {formatPrice(item.prices.sale_price, item.prices)}
+                                {formatPrice(item.prices.price, item.prices)}
                               </p>
-                              <CartQuantityControl
-                                inputClassName="px-4 py-0"
-                                className="min-w-[100px] px-3.5 py-2 lg:min-w-32 lg:px-5 lg:py-3"
-                                item={item}
-                              />
+                              {item.quantity_limits.editable && (
+                                <CartQuantityControl
+                                  inputClassName="px-4 py-0"
+                                  className="min-w-[100px] px-3.5 py-2 lg:min-w-32 lg:px-5 lg:py-3"
+                                  item={item}
+                                />
+                              )}
                             </div>
                           </div>
                         </div>

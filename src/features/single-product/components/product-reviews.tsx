@@ -1,7 +1,6 @@
 'use client';
 
-import { Product } from '@/features/product/types';
-import { useQueryClient, useSuspenseInfiniteQuery } from '@tanstack/react-query';
+import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 import appAxios from '@/lib/app-axios';
 import { ProductReview } from '@/types';
 import { Rating } from '@/features/product/components/rating';

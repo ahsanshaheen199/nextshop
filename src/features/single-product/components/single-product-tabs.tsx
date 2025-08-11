@@ -5,6 +5,7 @@ import { Suspense, useMemo } from 'react';
 import { ProductReviews } from '@/features/single-product/components/product-reviews';
 import { ProductReviewsSkeleton } from '@/features/single-product/components/product-reviews-skeleton';
 import { ProductResponseItem } from '@/types/product-response';
+import { useProduct } from '@/providers/product-provider';
 
 type Props = {
   product: ProductResponseItem;
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function SingleProductTabs({ product, settingsResult, session }: Props) {
+  const { selectedVariation } = useProduct();
   const showAdditionalTab = useMemo(() => {
     return !(
       product.extensions['headless-helper-custom-product-data'].dimensions.length === '' &&
@@ -101,7 +103,11 @@ export function SingleProductTabs({ product, settingsResult, session }: Props) {
               </div>
               <div className="flex-1">
                 <span className="font-satoshi text-xl leading-[22px] text-black/60">
-                  {product.extensions['headless-helper-custom-product-data'].weight !== '' ? (
+                  {selectedVariation && selectedVariation.weight !== '' ? (
+                    <>
+                      {selectedVariation.weight} {product.extensions['headless-helper-custom-product-data'].weight_unit}
+                    </>
+                  ) : product.extensions['headless-helper-custom-product-data'].weight !== '' ? (
                     <>
                       {product.extensions['headless-helper-custom-product-data'].weight}{' '}
                       {product.extensions['headless-helper-custom-product-data'].weight_unit}
@@ -118,9 +124,19 @@ export function SingleProductTabs({ product, settingsResult, session }: Props) {
               </div>
               <div className="flex-1">
                 <span className="font-satoshi text-xl leading-[22px] text-black/60">
-                  {product.extensions['headless-helper-custom-product-data'].dimensions.length !== '' &&
-                  product.extensions['headless-helper-custom-product-data'].dimensions.width !== '' &&
-                  product.extensions['headless-helper-custom-product-data'].dimensions.height !== '' ? (
+                  {selectedVariation &&
+                  selectedVariation?.dimensions &&
+                  selectedVariation?.dimensions?.length !== '' &&
+                  selectedVariation?.dimensions?.width !== '' &&
+                  selectedVariation?.dimensions?.height !== '' ? (
+                    <>
+                      {selectedVariation.dimensions.length} {'x'} {selectedVariation.dimensions.width} {'x'}{' '}
+                      {selectedVariation.dimensions.height}{' '}
+                      {product.extensions['headless-helper-custom-product-data'].dimensions_unit}
+                    </>
+                  ) : product.extensions['headless-helper-custom-product-data'].dimensions.length !== '' &&
+                    product.extensions['headless-helper-custom-product-data'].dimensions.width !== '' &&
+                    product.extensions['headless-helper-custom-product-data'].dimensions.height !== '' ? (
                     <>
                       {product.extensions['headless-helper-custom-product-data'].dimensions.length} {'x'}{' '}
                       {product.extensions['headless-helper-custom-product-data'].dimensions.width} {'x'}{' '}
