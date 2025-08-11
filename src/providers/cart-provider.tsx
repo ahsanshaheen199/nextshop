@@ -15,6 +15,7 @@ type CartContextType = {
   ) => void;
   updateCartItem: (productId: string, quantity: number, variation?: { attribute: string; value: string }[]) => void;
   removeCartItem: (productId: string, variation?: { attribute: string; value: string }[]) => void;
+  updateShippingRateItem: (rateId: string) => void;
 };
 
 type CartAction =
@@ -34,6 +35,10 @@ type CartAction =
   | {
       type: 'REMOVE_ITEM';
       payload: { key: string };
+    }
+  | {
+      type: 'UPDATE_SHIPPING_RATE';
+      payload: { rateId: string };
     };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -312,6 +317,22 @@ function cartReducer(state: CartResponse | undefined, action: CartAction): CartR
       };
     }
 
+    case 'UPDATE_SHIPPING_RATE': {
+      const { rateId } = action.payload;
+
+      return {
+        ...currentCart,
+        shipping_rates: currentCart.shipping_rates.map((rate) => {
+          return {
+            ...rate,
+            shipping_rates: rate.shipping_rates.map((shippingRate) => {
+              return { ...shippingRate, selected: shippingRate.rate_id === rateId };
+            }),
+          };
+        }),
+      };
+    }
+
     default:
       return currentCart;
   }
@@ -344,8 +365,14 @@ export function CartProvider({
     updateOptimisticCart({ type: 'REMOVE_ITEM', payload: { key } });
   };
 
+  const updateShippingRateItem = (rateId: string) => {
+    updateOptimisticCart({ type: 'UPDATE_SHIPPING_RATE', payload: { rateId } });
+  };
+
   return (
-    <CartContext.Provider value={{ cart: optimisticCart, addCartItem, updateCartItem, removeCartItem }}>
+    <CartContext.Provider
+      value={{ cart: optimisticCart, addCartItem, updateCartItem, removeCartItem, updateShippingRateItem }}
+    >
       {children}
     </CartContext.Provider>
   );

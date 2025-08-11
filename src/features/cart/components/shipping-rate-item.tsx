@@ -3,17 +3,17 @@ import { useTransition } from 'react';
 import { updateShippingRate } from '../actions';
 import { CartShippingPackageShippingRate, CartShippingRate } from '@/types/cart';
 import { toast } from '@/components/toast';
+import { useCart } from '@/providers/cart-provider';
 
 export function ShippingRateItem({
   shippingRate,
   rate,
-  updateOptimisticRate,
 }: {
   shippingRate: CartShippingPackageShippingRate;
   rate: CartShippingRate;
-  updateOptimisticRate: (action: { rate_id: string }) => void;
 }) {
   const [isPending, startTransition] = useTransition();
+  const { updateShippingRateItem } = useCart();
 
   return (
     <li className="flex items-center gap-x-2">
@@ -26,7 +26,7 @@ export function ShippingRateItem({
         checked={shippingRate.selected}
         onChange={async () => {
           startTransition(async () => {
-            updateOptimisticRate({ rate_id: shippingRate.rate_id });
+            updateShippingRateItem(shippingRate.rate_id);
             const result = await updateShippingRate({
               package_id: Number(rate.package_id),
               rate_id: shippingRate.rate_id,

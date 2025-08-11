@@ -163,7 +163,7 @@ export function GroupedProducts({ products }: Props) {
         disabled={isPending}
         isLoading={isPending}
         type="button"
-        className="w-full cursor-pointer rounded-[62px] bg-black py-3 text-white disabled:cursor-not-allowed disabled:bg-black/70 lg:py-4"
+        className="w-2/3 cursor-pointer rounded-[62px] bg-black py-3 text-white disabled:cursor-not-allowed disabled:bg-black/70 lg:py-4"
       >
         Add to cart
       </Button>
