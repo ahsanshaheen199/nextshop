@@ -18,10 +18,6 @@ export function SimpleProductAddToCart({ product }: Props) {
   const addItemAction = formAction.bind(null, { productId: product.id.toString(), quantity });
   const { addCartItem } = useCart();
 
-  if (product.is_in_stock === false) {
-    return <p className="pt-6 text-left text-base text-red-500">Product is out of stock</p>;
-  }
-
   useEffect(() => {
     if (state?.error) {
       toast({
@@ -31,6 +27,10 @@ export function SimpleProductAddToCart({ product }: Props) {
       });
     }
   }, [state]);
+
+  if (product.is_in_stock === false) {
+    return <p className="pt-6 text-left text-base text-red-500">Product is out of stock</p>;
+  }
 
   return (
     <Fragment>
