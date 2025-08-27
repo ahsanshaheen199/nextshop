@@ -190,3 +190,14 @@ export type ShippingRate = {
     currency_suffix: string;
   }>;
 };
+
+export type Category = {
+  id: number;
+  name: string;
+  slug: string;
+  image: {
+    src: string;
+    alt: string;
+    thumbnail: string;
+  };
+};

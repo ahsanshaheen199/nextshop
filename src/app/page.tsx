@@ -1,8 +1,10 @@
 import { Suspense } from 'react';
 import { BestSelling } from '@/features/home/components/best-selling';
 import { CarouselSkeleton } from '@/features/home/components/carousel-skeleton';
+import { CategoryGridSkeleton } from '@/features/home/components/category-grid-skeleton';
 import { Button } from '@/components/form/button';
 import { NewArrivals } from '@/features/home/components/new-arrivals';
+import { CategoryGrid } from '@/features/home/components/category-grid';
 
 export default async function Home() {
   return (
@@ -43,6 +45,16 @@ export default async function Home() {
               View all
             </Button>
           </div>
+        </div>
+      </div>
+      <div className="container mx-auto">
+        <div className="rounded-[40px] bg-[#F0F0F0] px-16 py-18">
+          <h2 className="mb-7 text-center font-integral-bold text-[32px] leading-[36px] text-black lg:mb-16 lg:text-5xl">
+            Browse by Category
+          </h2>
+          <Suspense fallback={<CategoryGridSkeleton />}>
+            <CategoryGrid />
+          </Suspense>
         </div>
       </div>
     </main>
