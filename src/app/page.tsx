@@ -5,6 +5,7 @@ import { CategoryGridSkeleton } from '@/features/home/components/category-grid-s
 import { Button } from '@/components/form/button';
 import { NewArrivals } from '@/features/home/components/new-arrivals';
 import { CategoryGrid } from '@/features/home/components/category-grid';
+import { ReviewsCarousel } from '@/features/home/components/reviews-carousel';
 
 export default async function Home() {
   return (
@@ -48,7 +49,7 @@ export default async function Home() {
         </div>
       </div>
       <div className="container mx-auto">
-        <div className="rounded-[40px] bg-[#F0F0F0] px-16 py-18">
+        <div className="mb-12 rounded-[40px] bg-[#F0F0F0] px-16 py-18 lg:mb-20">
           <h2 className="mb-7 text-center font-integral-bold text-[32px] leading-[36px] text-black lg:mb-16 lg:text-5xl">
             Browse by Category
           </h2>
@@ -57,6 +58,9 @@ export default async function Home() {
           </Suspense>
         </div>
       </div>
+      <Suspense fallback={<CarouselSkeleton />}>
+        <ReviewsCarousel />
+      </Suspense>
     </main>
   );
 }
