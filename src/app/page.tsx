@@ -6,10 +6,16 @@ import { Button } from '@/components/form/button';
 import { NewArrivals } from '@/features/home/components/new-arrivals';
 import { CategoryGrid } from '@/features/home/components/category-grid';
 import { ReviewsCarousel } from '@/features/home/components/reviews-carousel';
+import { ReviewsCarouselSkeleton } from '@/features/home/components/reviews-carousel-skeleton';
+import { Brands } from '@/features/home/components/brands';
+import { BrandsSkeleton } from '@/features/home/components/brands-skeleton';
 
 export default async function Home() {
   return (
     <main>
+      <Suspense fallback={<BrandsSkeleton />}>
+        <Brands />
+      </Suspense>
       <div className="container mx-auto">
         <div className="border-b border-black/10 pb-12 lg:pb-20">
           <h2 className="mb-10 text-center font-integral-bold text-[32px] leading-[36px] text-black lg:mb-14 lg:text-5xl">
@@ -58,7 +64,7 @@ export default async function Home() {
           </Suspense>
         </div>
       </div>
-      <Suspense fallback={<CarouselSkeleton />}>
+      <Suspense fallback={<ReviewsCarouselSkeleton />}>
         <ReviewsCarousel />
       </Suspense>
     </main>

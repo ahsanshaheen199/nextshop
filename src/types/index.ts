@@ -201,3 +201,15 @@ export type Category = {
     thumbnail: string;
   };
 };
+
+export type Brand = {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  image: {
+    src: string;
+    alt: string;
+    thumbnail: string;
+  };
+};
