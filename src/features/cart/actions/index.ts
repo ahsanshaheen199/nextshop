@@ -1,6 +1,7 @@
 'use server';
 
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
+import { CartResponseBillingAddress, CartResponseShippingAddress } from '@/types/cart-response';
 import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 
@@ -268,6 +269,41 @@ export async function addGroupedProductsToCart(prevState: unknown, payload: { id
     }
 
     return { success: 'Grouped products added to cart' };
+  }
+
+  const result = await res.json();
+
+  return { error: result.message };
+}
+
+export async function updateCustomerBillingAddress(
+  prevState: unknown,
+  payload: {
+    billingAddress: CartResponseBillingAddress;
+    shippingAddress: Omit<CartResponseShippingAddress, 'company' | 'phone'>;
+  }
+) {
+  const cartToken = (await cookies()).get('cartToken')?.value;
+  const res = await apiFetchWithoutAuth(`/wc/store/v1/cart/update-customer`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'CART-TOKEN': cartToken || '',
+    },
+    body: JSON.stringify({
+      billing_address: payload.billingAddress,
+      shipping_address: payload.shippingAddress,
+    }),
+  });
+
+  if (res.ok) {
+    revalidateTag('getCart');
+
+    (await cookies()).set('cartToken', res.headers.get('CART-TOKEN') || '');
+    (await cookies()).set('nonce', res.headers.get('Nonce') || '');
+
+    return { success: 'Billing address updated' };
   }
 
   const result = await res.json();

@@ -229,9 +229,8 @@ export default function CartPage() {
                 </div>
                 <div>
                   <Button
-                    onClick={() => {
-                      window.location.href = `${process.env.NEXT_PUBLIC_WOOCOMMERCE_SITE_URL}/checkout`;
-                    }}
+                    isLink
+                    href="/checkout"
                     className="w-full gap-x-3 py-4.5 text-sm font-medium lg:py-5 lg:text-base"
                   >
                     Go to checkout <ArrowRight className="h-5 w-5" />
