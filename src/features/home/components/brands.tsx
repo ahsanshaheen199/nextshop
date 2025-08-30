@@ -18,7 +18,7 @@ export async function Brands() {
   return (
     <div className="mb-12 bg-black py-11 lg:mb-20">
       <div className="container mx-auto">
-        <div className="flex items-center justify-between gap-x-5">
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-5 lg:justify-between lg:gap-y-0">
           {brands.map((brand) => (
             <div className="relative h-6 w-28 lg:h-9 lg:w-48" key={brand.id}>
               <Image

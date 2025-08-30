@@ -9,10 +9,12 @@ import { ReviewsCarousel } from '@/features/home/components/reviews-carousel';
 import { ReviewsCarouselSkeleton } from '@/features/home/components/reviews-carousel-skeleton';
 import { Brands } from '@/features/home/components/brands';
 import { BrandsSkeleton } from '@/features/home/components/brands-skeleton';
+import { HeroArea } from '@/features/home/components/hero-area';
 
 export default async function Home() {
   return (
     <main>
+      <HeroArea />
       <Suspense fallback={<BrandsSkeleton />}>
         <Brands />
       </Suspense>
