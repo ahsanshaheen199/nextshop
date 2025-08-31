@@ -84,7 +84,7 @@ export function ReviewsCarouselClient({ reviews }: { reviews: ProductReview[] })
             setViewportEl(node);
           }}
         >
-          <div className="touch-pin-zoom -ml-5 flex touch-pan-y">
+          <div className="touch-pin-zoom -ml-5 flex touch-pan-y px-5 xl:px-0">
             {reviews.map((review, idx) => {
               const firstIdx = visibleOriginalIndices[0];
               const lastIdx = visibleOriginalIndices[visibleOriginalIndices.length - 1];
@@ -95,7 +95,7 @@ export function ReviewsCarouselClient({ reviews }: { reviews: ProductReview[] })
                 <div
                   key={review.id}
                   data-slide-index={idx}
-                  className={`relative min-w-0 shrink-0 grow-0 basis-1/2 translate-x-0 translate-y-0 translate-z-0 transform pl-5 select-none lg:basis-[20%] ${edgeClass}`}
+                  className={`relative min-w-0 shrink-0 grow-0 basis-full translate-x-0 translate-y-0 translate-z-0 transform pl-5 select-none md:basis-1/2 lg:basis-1/3 xl:basis-[20%] ${edgeClass}`}
                 >
                   <div className="rounded-[20px] border border-black/10 px-8 py-7">
                     <div className="mb-2 lg:mb-3">
@@ -117,7 +117,7 @@ export function ReviewsCarouselClient({ reviews }: { reviews: ProductReview[] })
                     </p>
                   </div>
                   {(isFirstVisible || isLastVisible) && (
-                    <div className="absolute top-0 right-0 z-10 h-full w-full bg-white/10 backdrop-blur-[2px]" />
+                    <div className="absolute top-0 right-0 z-10 hidden h-full w-full bg-white/10 backdrop-blur-[2px] xl:block" />
                   )}
                 </div>
               );

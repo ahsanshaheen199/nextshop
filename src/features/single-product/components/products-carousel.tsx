@@ -30,7 +30,7 @@ export function ProductsCarousel({ products }: { products: ProductResponseItem[]
         {products.map((product) => (
           <div
             key={product.id}
-            className="min-w-0 shrink-0 grow-0 basis-1/2 translate-x-0 translate-y-0 translate-z-0 transform pl-5 select-none lg:basis-1/4"
+            className="min-w-0 shrink-0 grow-0 basis-full translate-x-0 translate-y-0 translate-z-0 transform pl-5 select-none md:basis-1/2 lg:basis-1/4"
           >
             <ProductItem product={product} />
           </div>

@@ -57,7 +57,7 @@ export default async function Home() {
         </div>
       </div>
       <div className="container mx-auto">
-        <div className="mb-12 rounded-[40px] bg-[#F0F0F0] px-16 py-18 lg:mb-20">
+        <div className="mb-12 rounded-[40px] bg-[#F0F0F0] px-6 pt-10 pb-7 lg:mb-20 lg:px-16 lg:py-18">
           <h2 className="mb-7 text-center font-integral-bold text-[32px] leading-[36px] text-black lg:mb-16 lg:text-5xl">
             Browse by Category
           </h2>
