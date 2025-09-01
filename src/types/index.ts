@@ -213,3 +213,7 @@ export type Brand = {
     thumbnail: string;
   };
 };
+
+export type CategoryTree = Category & {
+  children: Category[];
+};
