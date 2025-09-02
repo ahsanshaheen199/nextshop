@@ -26,7 +26,7 @@ export function Categories() {
   });
 
   return (
-    <div>
+    <div className="pb-5">
       <div className={`flex cursor-pointer items-center justify-between`} onClick={() => setOpen(!open)}>
         <h3 className="font-satoshi-bold text-xl text-black">Categories</h3>
         <svg
@@ -44,7 +44,7 @@ export function Categories() {
         </svg>
       </div>
       <div
-        className={`grid border-b border-black/10 transition-[grid-template-rows,padding] duration-250 ease-linear ${open ? 'grid-rows-[1fr] pt-3 pb-5 opacity-100' : 'grid-rows-[0fr] pt-0 pb-0 opacity-0'}`}
+        className={`grid transition-[grid-template-rows,padding] duration-250 ease-linear ${open ? 'grid-rows-[1fr] pt-3 opacity-100' : 'grid-rows-[0fr] pt-0 opacity-0'}`}
       >
         <div className="overflow-hidden">
           <ul className="space-y-3 text-base text-black/60">

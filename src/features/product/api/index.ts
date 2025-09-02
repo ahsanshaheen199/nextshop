@@ -5,15 +5,27 @@ export async function getProductsWithPagination({
   page = 1,
   orderBy,
   perPage,
+  minPrice,
+  maxPrice,
 }: {
   page: number;
   orderBy: string;
   order?: 'desc' | 'asc';
   perPage: number;
+  minPrice?: number;
+  maxPrice?: number;
 }) {
+  console.log({ minPrice, maxPrice });
   const searchParams = new URLSearchParams();
   searchParams.set('page', page.toString());
   searchParams.set('per_page', perPage.toString());
+
+  if (minPrice) {
+    searchParams.set('min_price', minPrice.toString());
+  }
+  if (maxPrice) {
+    searchParams.set('max_price', maxPrice.toString());
+  }
 
   if (orderBy === 'default') {
     searchParams.delete('orderby', orderBy);
@@ -33,6 +45,8 @@ export async function getProductsWithPagination({
     searchParams.set('order', 'desc');
   }
 
+  console.log(searchParams.toString(), maxPrice);
+
   const response = await apiFetchWithoutAuth(`/wc/store/v1/products?${searchParams.toString()}`);
 
   if (!response.ok) {
@@ -45,6 +59,8 @@ export async function getProductsWithPagination({
     };
   }
   const result = (await response.json()) as ProductResponseItem[];
+
+  console.log(result);
 
   return {
     products: result,

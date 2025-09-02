@@ -14,6 +14,8 @@ export async function ProductCountWithOrdering({ searchParamsValue }: Props) {
     page: searchParamsValue?.page ? Number(searchParamsValue['page']) : 1,
     orderBy: searchParamsValue?.orderby ? (searchParamsValue['orderby'] as string) : 'default',
     perPage: searchParamsValue?.perPage ? Number(searchParamsValue['perPage']) : 9,
+    minPrice: searchParamsValue?.minPrice ? Number(searchParamsValue['minPrice']) : undefined,
+    maxPrice: searchParamsValue?.maxPrice ? Number(searchParamsValue['maxPrice']) : undefined,
   });
 
   return (
