@@ -12,6 +12,7 @@
   "dependencies": {
     "@bprogress/next": "^3.2.12",
     "@headlessui/react": "^2.2.6",
+    "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-scroll-area": "^1.2.8",
     "@radix-ui/react-select": "^2.1.7",
