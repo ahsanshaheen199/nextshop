@@ -10,13 +10,12 @@ type Props = {
 };
 
 export async function ProductCountWithOrdering({ searchParamsValue }: Props) {
-  const { meta } = await getProductsWithPagination({
-    page: searchParamsValue?.page ? Number(searchParamsValue['page']) : 1,
-    orderBy: searchParamsValue?.orderby ? (searchParamsValue['orderby'] as string) : 'default',
-    perPage: searchParamsValue?.perPage ? Number(searchParamsValue['perPage']) : 9,
-    minPrice: searchParamsValue?.minPrice ? Number(searchParamsValue['minPrice']) : undefined,
-    maxPrice: searchParamsValue?.maxPrice ? Number(searchParamsValue['maxPrice']) : undefined,
-  });
+  let params = '';
+  if (Object.keys(searchParamsValue).length > 0) {
+    const newSearchParams = new URLSearchParams(searchParamsValue as Record<string, string>);
+    params = newSearchParams.toString();
+  }
+  const { meta } = await getProductsWithPagination(params);
 
   return (
     <div className="mb-6 flex items-center justify-between">

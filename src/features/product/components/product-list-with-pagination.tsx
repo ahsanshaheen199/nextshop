@@ -3,19 +3,20 @@ import { Pagination } from '@/features/product/components/pagination';
 import { SearchParams } from '@/types';
 import { getProductsWithPagination } from '@/features/product/api';
 import { ProductList } from '@/features/product/components/product-list';
+import qs from 'qs';
 
 type Props = {
   searchParamsValue: SearchParams;
 };
 
 export async function ProductListWithPagination({ searchParamsValue }: Props) {
-  const { products, meta } = await getProductsWithPagination({
-    page: searchParamsValue?.page ? Number(searchParamsValue['page']) : 1,
-    orderBy: searchParamsValue?.orderby ? (searchParamsValue['orderby'] as string) : 'default',
-    perPage: searchParamsValue?.perPage ? Number(searchParamsValue['perPage']) : 9,
-    minPrice: searchParamsValue?.minPrice ? Number(searchParamsValue['minPrice']) : undefined,
-    maxPrice: searchParamsValue?.maxPrice ? Number(searchParamsValue['maxPrice']) : undefined,
-  });
+  let params = '';
+  if (Object.keys(searchParamsValue).length > 0) {
+    const newSearchParams = new URLSearchParams(searchParamsValue as Record<string, string>);
+    params = newSearchParams.toString();
+  }
+
+  const { products, meta } = await getProductsWithPagination(params);
 
   return (
     <Fragment>
