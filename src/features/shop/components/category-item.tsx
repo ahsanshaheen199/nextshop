@@ -1,3 +1,5 @@
+'use client';
+
 import { CategoryTree } from '@/types';
 import Link from 'next/link';
 import { useState } from 'react';

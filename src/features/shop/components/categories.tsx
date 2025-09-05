@@ -1,28 +1,22 @@
-'use client';
-
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
 import { CategoryTree } from '@/types';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import arrayToTree from 'array-to-tree';
 import { CategoryItem } from './category-item';
 import * as Accordion from '@radix-ui/react-accordion';
 
-export function Categories() {
-  const { data: categoriesTree } = useSuspenseQuery<CategoryTree[]>({
-    queryKey: ['categories'],
-    queryFn: async () => {
-      const response = await apiFetchWithoutAuth('/wc/store/v1/products/categories?hide_empty=false');
-      if (!response.ok) {
-        return null;
-      }
-      const categories = await response.json();
-      return categories;
-    },
-    select: (data) =>
-      arrayToTree(data, {
-        parentProperty: 'parent',
-      }),
-  });
+export async function Categories() {
+  let categoriesTree: CategoryTree[] = [];
+
+  const response = await apiFetchWithoutAuth('/wc/store/v1/products/categories?hide_empty=false');
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const categories = await response.json();
+  categoriesTree = arrayToTree(categories, {
+    parentProperty: 'parent',
+  }) as CategoryTree[];
 
   return (
     <Accordion.Item value="categories" className="pb-5">
