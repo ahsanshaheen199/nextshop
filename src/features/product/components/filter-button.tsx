@@ -18,11 +18,11 @@ export function FilterButton() {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/20 data-[state=open]:animate-overlayShow" />
-        <Dialog.Content className="fixed top-0 left-0 z-50 h-full w-3/4 bg-white px-6 py-5 shadow-lg transition data-[state=closed]:-translate-x-full data-[state=closed]:animate-slide-out-from-right data-[state=closed]:duration-300 data-[state=open]:animate-slide-in-from-right data-[state=open]:duration-500 sm:max-w-sm">
+        <Dialog.Content className="fixed top-0 left-0 z-50 flex h-full w-3/4 flex-col overflow-y-auto bg-white px-6 py-5 pt-10 shadow-lg transition data-[state=closed]:-translate-x-full data-[state=closed]:animate-slide-out-from-right data-[state=closed]:duration-300 data-[state=open]:animate-slide-in-from-right data-[state=open]:duration-500 sm:max-w-sm">
           <Dialog.Title className="sr-only">Filter</Dialog.Title>
           <FilterSidebar />
           <Dialog.Close asChild>
-            <button className="absolute top-6 right-6 text-black">
+            <button className="absolute top-3 right-3 text-black">
               <Cross className="text-black/40" />
             </button>
           </Dialog.Close>
