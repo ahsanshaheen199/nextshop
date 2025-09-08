@@ -1,8 +1,14 @@
 import { apiFetchWithoutAuth } from '@/lib/app-fetch';
 import { ProductResponseItem } from '@/types/product-response';
 
-export async function getProductsWithPagination(params: string) {
-  const response = await apiFetchWithoutAuth(`/wc/store/v1/products?per_page=9&${params}`);
+export async function getProductsWithPagination(params: string, category?: string | number) {
+  let queryString = `per_page=9&${params}`;
+
+  if (category) {
+    queryString += `&category=${category}`;
+  }
+
+  const response = await apiFetchWithoutAuth(`/wc/store/v1/products?${queryString}`);
 
   if (!response.ok) {
     return {

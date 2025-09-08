@@ -7,15 +7,16 @@ import { FilterButton } from '@/features/product/components/filter-button';
 
 type Props = {
   searchParamsValue: SearchParams;
+  category?: string;
 };
 
-export async function ProductCountWithOrdering({ searchParamsValue }: Props) {
+export async function ProductCountWithOrdering({ searchParamsValue, category }: Props) {
   let params = '';
   if (Object.keys(searchParamsValue).length > 0) {
     const newSearchParams = new URLSearchParams(searchParamsValue as Record<string, string>);
     params = newSearchParams.toString();
   }
-  const { meta } = await getProductsWithPagination(params);
+  const { meta } = await getProductsWithPagination(params, category);
 
   return (
     <div className="mb-6 flex items-center justify-between">

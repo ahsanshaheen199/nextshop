@@ -7,16 +7,17 @@ import qs from 'qs';
 
 type Props = {
   searchParamsValue: SearchParams;
+  category?: string;
 };
 
-export async function ProductListWithPagination({ searchParamsValue }: Props) {
+export async function ProductListWithPagination({ searchParamsValue, category }: Props) {
   let params = '';
   if (Object.keys(searchParamsValue).length > 0) {
     const newSearchParams = new URLSearchParams(searchParamsValue as Record<string, string>);
     params = newSearchParams.toString();
   }
 
-  const { products, meta } = await getProductsWithPagination(params);
+  const { products, meta } = await getProductsWithPagination(params, category);
 
   return (
     <Fragment>
